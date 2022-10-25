@@ -1,23 +1,5 @@
-import {IItem} from "../models/IItem";
+import {IItem} from "../models/DataBaseItems";
 import {$authHost, $host} from "./index";
-
-export const createCategory = async (name: string) => {
-    const {data} = await $host.post('api/category', {name}) //authost !
-    return data
-}
-export const fetchCategories = async () => {
-    const {data} = await $host.get('api/category')
-    return data
-}
-
-export const createSubcategory = async (name: string, category: object) => {
-    const {data} = await $host.post('api/subcategory', {name, category}) //authost !
-    return data
-}
-export const fetchSubcategories = async (category: object) => {
-    const {data} = await $host.get('api/subcategory', {params: category})
-    return data
-}
 
 export const createBrand = async (name: string) => {
     const {data} = await $host.post('api/brand', {name}) //authost !
