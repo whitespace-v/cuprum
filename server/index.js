@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const models = require('./models/models')
-const sequelize = require('./db')
+const sequelize = require('./database')
 const fileUpload = require('express-fileupload')
 const cors = require('cors')
 const router = require('./routes/index')
@@ -24,6 +24,5 @@ const start = async () => {
         console.log(e)
     }
 }
-
 
 start()
