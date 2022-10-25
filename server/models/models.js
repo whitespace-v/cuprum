@@ -15,48 +15,50 @@ const Item = sequelize.define('item', {
     category:            {type: DataTypes.STRING,    allowNull: false },
     subcategory:         {type: DataTypes.STRING,    allowNull: false },
     brand:               {type: DataTypes.STRING,    allowNull: false },
-    model:               {type: DataTypes.STRING,   allowNull: false },
-    description:         {type: DataTypes.STRING,   allowNull: false },
+    model:               {type: DataTypes.STRING,    allowNull: false },
+    description:         {type: DataTypes.STRING,    allowNull: false },
     color:               {type: DataTypes.STRING,    allowNull: false },
     size:                {type: DataTypes.STRING,    allowNull: false },
     material:            {type: DataTypes.STRING,    allowNull: false },
     availability:        {type: DataTypes.STRING,    allowNull: false },
+    price:               {type: DataTypes.INTEGER,   allowNull: false },
     image:               {type: DataTypes.STRING,    allowNull: false },
 })
 
-const Category = sequelize.define('category', {
+const Category = sequelize.define('item_category', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
 
-const Subcategory = sequelize.define('subcategory', {
+const Subcategory = sequelize.define('item_subcategory', {
+    id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name:                {type: DataTypes.STRING,    allowNull: false },
+    category_id:         {type: DataTypes.INTEGER,    allowNull: false },
+})
+
+const Brand = sequelize.define('item_brand', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
 
-const Brand = sequelize.define('brand', {
+const Model = sequelize.define('item_model', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
 
-const Model = sequelize.define('model', {
+const Color = sequelize.define('item_color', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
-
-const Color = sequelize.define('color', {
+const Size = sequelize.define('item_size', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
-const Size = sequelize.define('size', {
+const Material = sequelize.define('item_material', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
-const Material = sequelize.define('material', {
-    id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name:                {type: DataTypes.STRING,    allowNull: false }
-})
-const Availability = sequelize.define('availability', {
+const Availability = sequelize.define('item_availability', {
     id:                  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:                {type: DataTypes.STRING,    allowNull: false }
 })
@@ -163,6 +165,9 @@ const MaterialAvailability = sequelize.define('material_availability', {
     id:                   {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 })
 //5. has many
+Category.hasMany(Subcategory)
+Subcategory.belongsTo(Category)
+
 Item.hasMany(ItemImages,{as: 'images'})
 ItemImages.belongsTo(Item)
 
@@ -191,7 +196,6 @@ Availability.hasMany(Item)
 Item.belongsTo(Availability)
 
 // 6. belongsToMany
-Category.belongsToMany(Subcategory,{through: CategorySubcategory})
 Category.belongsToMany(Brand,{through: CategoryBrand})
 Category.belongsToMany(Model,{through: CategoryModel})
 Category.belongsToMany(Size,{through: CategorySize})
@@ -199,7 +203,6 @@ Category.belongsToMany(Color,{through: CategoryColor})
 Category.belongsToMany(Material,{through: CategoryMaterial})
 Category.belongsToMany(Availability,{through: CategoryAvailability})
 
-Subcategory.belongsToMany(Category,{through: CategorySubcategory})
 Subcategory.belongsToMany(Brand,{through: SubcategoryBrand})
 Subcategory.belongsToMany(Model,{through: SubcategoryModel})
 Subcategory.belongsToMany(Size,{through: SubcategorySize})

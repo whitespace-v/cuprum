@@ -7,6 +7,7 @@ export interface IItem {
     color: string,
     size: string,
     material: string,
+    price: number,
     availability: 'под заказ' | 'Владивосток',
     images: object | object[],
 }
