@@ -9,8 +9,13 @@ class SubcategoryController {
         // console.log(category.id)
     }
     async getAll(req,res){
-        const subcategories = await Subcategory.findAll({where: {category_id: req.query.id}})
-        return res.json(subcategories)
+        if (req.query.id) {
+            const subcategories = await Subcategory.findAll({where: {category_id: req.query.id}})
+            return res.json(subcategories)
+        } else {
+            const subcategories = await Subcategory.findAll()
+            return res.json(subcategories)
+        }
     }
     async delete(req,res){
         try{
