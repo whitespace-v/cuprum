@@ -57,8 +57,6 @@ const SubcategoryBar = () => {
                 {loading && <p>loading....</p>}
                 {error && <p>error....</p>}
             </div>
-
-
         </div>
     );
 };
