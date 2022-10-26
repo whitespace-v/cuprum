@@ -1,0 +1,7 @@
+.CategoryBar{
+  margin: 10px 0;
+  &__items{
+    display: flex;
+    gap: 20px;
+  }
+}

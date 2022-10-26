@@ -1,0 +1,30 @@
+@import '../variables';
+.Item{
+  &__name{
+    font-size: 32px;
+    font-weight: 600;
+  }
+  &__images{
+    display: flex;
+    height: 500px;
+    &-extended{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      &-item{
+        width: 150px;
+        height: 150px;
+        background-size: contain;
+        border-left: 2px solid transparent;
+      }
+      &-item:hover{
+        border-left: 2px solid $orange;
+      }
+    }
+    &-main{
+      width: 500px;
+      height: 500px;
+      background-size: contain;
+    }
+  }
+}
