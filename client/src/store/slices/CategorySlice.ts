@@ -1,18 +1,29 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ICategory, ISubcategory} from "../../models/DataBaseItems";
+import {IBrand, ICategory, ISubcategory} from "../../models/DataBaseItems";
 
 interface CategoryState {
     categories: ICategory[];
     subcategories: ISubcategory[];
+    brands: IBrand[];
     currentCategory: ICategory;
     currentSubcategory: ISubcategory;
+    currentBrand: IBrand;
     loading: boolean;
-    error: boolean
+    error: boolean;
 }
 
 const initialState: CategoryState = {
     categories: [],
     subcategories: [],
+    brands: [],
+    currentBrand: {
+        id: 0,
+        name: '',
+        createdAt: '',
+        updatedAt: '',
+        categories_id: [],
+        subcategories_id: [],
+    },
     currentSubcategory: {
         id: 0,
         name: '',
@@ -34,6 +45,9 @@ export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            brandSet(state, action: PayloadAction<IBrand>){
+                state.currentBrand = action.payload
+            },
             categorySet(state, action: PayloadAction<ICategory>){
                 state.currentCategory = action.payload
             },

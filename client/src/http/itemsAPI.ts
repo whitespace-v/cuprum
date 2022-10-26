@@ -1,10 +1,6 @@
 import {IItem} from "../models/DataBaseItems";
 import {$authHost, $host} from "./index";
 
-export const createBrand = async (name: string) => {
-    const {data} = await $host.post('api/brand', {name}) //authost !
-    return data
-}
 export const fetchBrand = async () => {
     const {data} = await $host.get('api/brand')
     return data

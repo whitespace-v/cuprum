@@ -11,6 +11,14 @@ export interface ISubcategory{
     createdAt: string;
     updatedAt: string;
 }
+export interface IBrand{
+    id: number;
+    name: string;
+    categories_id: number[];
+    subcategories_id: number[];
+    createdAt: string;
+    updatedAt: string;
+}
 export interface IItem {
     category: string;
     subcategory: string;

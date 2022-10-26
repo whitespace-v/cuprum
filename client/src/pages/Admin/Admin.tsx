@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import CategoryBar from "../../Components/CategoryBar";
 import SubcategoryBar from "../../Components/SubcategoryBar";
+import BrandBar from "../../Components/BrandBar";
 
 const Admin = () => {
 
@@ -8,6 +9,8 @@ const Admin = () => {
         <div>
             <CategoryBar/>
             <SubcategoryBar/>
+            <BrandBar/>
+            content
         </div>
     );
 };

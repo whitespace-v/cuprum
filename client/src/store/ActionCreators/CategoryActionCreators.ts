@@ -49,3 +49,13 @@ export const setCurrentCategory = (category: ICategory) => async(dispatch: AppDi
 export const setCurrentSubcategory = (subcategory: ISubcategory) => async(dispatch: AppDispatch) => {
     dispatch(categorySlice.actions.subcategorySet(subcategory))
 }
+
+export const createBrand = (name: string, category: ICategory, subcategory: ISubcategory) => async(dispatch: AppDispatch) => {
+    try {
+        dispatch(categorySlice.actions.categoryCreation())
+        await $host.post('api/brand', {name, category, subcategory}) //authost !
+        dispatch(categorySlice.actions.categoryCreationSuccess())
+    } catch (e) {
+        dispatch(categorySlice.actions.categoryCreationError())
+    }
+}

@@ -1,0 +1,16 @@
+@import "../variables";
+.BrandBar-button{
+  display: flex;
+  gap: 20px;
+  & > *{
+    span{
+      color: $orange;
+    }
+  }
+}
+.BrandBar-content{
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+}

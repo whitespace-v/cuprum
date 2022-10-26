@@ -26,7 +26,7 @@ const SubcategoryBar = () => {
 
     return (
         <div className={classes['SubcategoryBar']}>
-            <div  className={classes['SubcategoryBar__items']}>
+            <div className={classes['SubcategoryBar__items']}>
                 {subcategories && subcategories.map(i => (
                     <UIButton
                         type={i === currentSubcategory ? 'link-active' : 'link'}
