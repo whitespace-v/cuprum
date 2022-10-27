@@ -52,3 +52,7 @@ export interface IItem {
     itemCategoryId: null;        //by mistake in relations
     itemSubcategoryId: null;     //by mistake in relations
 }
+export interface IItems {
+    count: number;
+    rows: IItem[];
+}

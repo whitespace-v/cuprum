@@ -3,8 +3,10 @@ import UIButton from "../../UIKIT/UIButton";
 import {FaCheck, FaPlus, FaTimes} from "react-icons/fa";
 import classes from '../../styles/Components/Bars/CategoryBar.module.scss'
 import UIInput from "../../UIKIT/UIInput";
-import {createCategory, fetchCategories, setCurrentCategory} from "../../store/ActionCreators/CategoryActionCreators";
+import {createCategory} from "../../store/ActionCreators/Creating";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {fetchCategories, fetchItems} from "../../store/ActionCreators/Fetching";
+import {setCurrentCategory} from "../../store/ActionCreators/Setting";
 
 const CategoryBar = () => {
     const {categories, loading, error, currentCategory} = useAppSelector(state => state.categoryReducer)

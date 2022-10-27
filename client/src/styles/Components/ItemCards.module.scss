@@ -1,8 +1,10 @@
 @import "../variables";
 .ItemCards{
   display: flex;
+  flex-flow: row wrap;
   gap: 20px;
   &__item{
+    flex: 0 1 19%;
     cursor: pointer;
     min-width: 200px;
     width: fit-content;
@@ -23,7 +25,6 @@
       width: 100px;
       height: 100px;
       background-size: cover;
-      border: 1px solid red;
       margin: 0 auto;
     }
     &-name{

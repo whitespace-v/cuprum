@@ -3,12 +3,10 @@ import classes from '../../../styles/Components/Bars/ExtendingBar.module.scss'
 import UIButton from "../../../UIKIT/UIButton";
 import UIInput from "../../../UIKIT/UIInput";
 import {FaCheck, FaPlus, FaTimes} from "react-icons/fa";
-import {
-    createAvailability, createBrand,
-    fetchAvailabilities, fetchBrands,
-    setCurrentAvailability, setCurrentBrand
-} from "../../../store/ActionCreators/CategoryActionCreators";
+import {createBrand} from "../../../store/ActionCreators/Creating";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {fetchBrands} from "../../../store/ActionCreators/Fetching";
+import {setCurrentBrand} from "../../../store/ActionCreators/Setting";
 
 const BrandBar = () => {
     const dispatch = useAppDispatch()

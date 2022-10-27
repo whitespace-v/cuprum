@@ -35,8 +35,36 @@ class ItemController {
     }
 
     async getAll(req,res){
-        const items = await Item.findAll()
-        return res.json(items)
+        //todo: limit, page, offset
+        const {category, subcategory, availability, brand} = req.query
+        const categoryId = Number(category.id)
+        const subcategoryId = Number(subcategory.id)
+        const brandId = Number(brand.id)
+        let items
+        try {
+            // if (!category.id && !subcategory.id && !availability.name && !brand.id){
+            //     // items = await Item.findAndCountAll({where: {categoryId: category.id, subcategoryId: subcategory.id}})
+            //     items = await Item.findAndCountAll()
+            // }
+            if (categoryId && !subcategoryId && !brandId && !availability.name){
+                items = await Item.findAndCountAll({where: {categoryId}})
+                console.log('pushed 1')
+            }
+            if (categoryId && subcategoryId && !brandId && !availability.name){
+                items = await Item.findAndCountAll({where: {categoryId, subcategoryId}})
+                console.log('pushed 2')
+            }
+            // if (category.id && subcategory.id && availability.name && !brand.id){
+            //     items = await Item.findAndCountAll({where: {categoryId: category.id, subcategoryId: subcategory.id, availability: availability.name}})
+            // }
+            // if (category.id && subcategory.id && availability.name && brand.id){
+            //     items = await Item.findAndCountAll({where: {categoryId: category.id, subcategoryId: subcategory.id, availability: availability.name, brandId: brand.id}})
+            // }
+            return res.json(items)
+        }catch (e) {
+
+        }
+
     }
     async getOne(req,res){                      //get a car by id
         const {id} = req.params

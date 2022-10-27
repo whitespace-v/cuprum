@@ -1,12 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IAvailability, IBrand, ICategory, IItem, ISubcategory} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICategory, IItem, ISubcategory, IItems} from "../../models/DataBaseItems";
 
 interface CategoryState {
     categories: ICategory[];
     subcategories: ISubcategory[];
     availabilities: IAvailability[];
     brands: IBrand[];
-    items: IItem[];
+    items: IItems;
     currentCategory: ICategory;
     currentSubcategory: ISubcategory;
     currentAvailability: IAvailability;
@@ -21,7 +21,10 @@ const initialState: CategoryState = {
     subcategories: [],
     availabilities: [],
     brands: [],
-    items: [],
+    items: {
+        count: 0,
+        rows: []
+    },
     currentCategory: {
         id: 0,
         name: '',
@@ -130,7 +133,7 @@ export const categorySlice = createSlice({
                 state.error = false
                 state.brands = action.payload
             },
-            itemsFetchingSuccess(state, action: PayloadAction<IItem[]>){
+            itemsFetchingSuccess(state, action: PayloadAction<IItems>){
                 state.loading = false
                 state.error = false
                 state.items = action.payload

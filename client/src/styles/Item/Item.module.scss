@@ -14,7 +14,9 @@
       &-item{
         width: 150px;
         height: 150px;
+        background-repeat: no-repeat;
         background-size: contain;
+        background-position: 50%,50%;
         border-left: 2px solid transparent;
       }
       &-item:hover{
@@ -24,7 +26,9 @@
     &-main{
       width: 500px;
       height: 500px;
+      background-repeat: no-repeat;
       background-size: contain;
+      background-position: 50%,50%;
     }
   }
 }

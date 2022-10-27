@@ -3,12 +3,10 @@ import classes from '../../../styles/Components/Bars/ExtendingBar.module.scss'
 import UIButton from "../../../UIKIT/UIButton";
 import UIInput from "../../../UIKIT/UIInput";
 import {FaCheck, FaPlus, FaTimes} from "react-icons/fa";
-import {
-    createAvailability,
-    fetchAvailabilities,
-    setCurrentAvailability
-} from "../../../store/ActionCreators/CategoryActionCreators";
+import {createAvailability} from "../../../store/ActionCreators/Creating";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {fetchAvailabilities} from "../../../store/ActionCreators/Fetching";
+import {setCurrentAvailability} from "../../../store/ActionCreators/Setting";
 
 const AvailabilityBar = () => {
     const dispatch = useAppDispatch()

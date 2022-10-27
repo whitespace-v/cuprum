@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {fetchItem} from "../../store/ActionCreators/CategoryActionCreators";
 import {useParams} from "react-router-dom";
 import Layout from "../../UIKIT/Layout";
 import classes from '../../styles/Item/Item.module.scss'
+import {fetchItem} from "../../store/ActionCreators/Fetching";
 
 const Item = () => {
     const dispatch = useAppDispatch()

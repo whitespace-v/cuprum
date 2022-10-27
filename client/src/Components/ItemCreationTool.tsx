@@ -5,7 +5,8 @@ import classes from '../styles/Components/ItemCreationTool.module.scss'
 import UIInput from "../UIKIT/UIInput";
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 import imageCompression from 'browser-image-compression';
-import {createItem, fetchItems} from "../store/ActionCreators/CategoryActionCreators";
+import {createItem} from "../store/ActionCreators/Creating";
+import {fetchItems} from "../store/ActionCreators/Fetching";
 
 const ItemCreationTool = () => {
     const dispatch = useAppDispatch()
@@ -27,7 +28,8 @@ const ItemCreationTool = () => {
                 )
                 compressedImages.push(c)
             }
-            dispatch(createItem(name, description, price, compressedImages, currentAvailability, currentBrand, currentCategory, currentSubcategory )).then(() => dispatch(fetchItems()))
+            dispatch(createItem(name, description, price, compressedImages, currentAvailability, currentBrand, currentCategory, currentSubcategory))
+            dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand))
             setCreationMode(false)
             setName('')
             setDescription('')

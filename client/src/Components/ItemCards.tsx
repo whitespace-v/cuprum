@@ -1,23 +1,23 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {fetchItems} from "../store/ActionCreators/CategoryActionCreators";
 import classes from '../styles/Components/ItemCards.module.scss'
 import {FaStar} from "react-icons/fa";
 import {RiHeart3Line, RiShoppingCartLine} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
+import {fetchItems} from "../store/ActionCreators/Fetching";
 
 const ItemCards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const {items} = useAppSelector(state => state.categoryReducer)
+    const {items, currentCategory, currentSubcategory,currentAvailability, currentBrand} = useAppSelector(state => state.categoryReducer)
 
     useEffect(() => {
-        dispatch(fetchItems())
-    }, [])
-
+        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand))
+    }, [currentCategory, currentSubcategory,currentAvailability, currentBrand])
+    console.log(items)
     return (
         <div className={classes['ItemCards']}>
-            {items.map(i => (
+            {items && items.rows && items.rows.map(i => (
                 <div key={i.id} className={classes['ItemCards__item']} onClick={() => navigate(`item/${i.id}`)}>
                     <div className={classes['ItemCards__item-vendor']}
                     >

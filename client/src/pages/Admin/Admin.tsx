@@ -6,11 +6,12 @@ import BrandBar from "../../Components/Bars/ExtendingBars/BrandBar";
 import ExtendingBarsLayout from "../../Components/Bars/ExtendingBars/ExtendingBarsLayout";
 import ItemCreationTool from "../../Components/ItemCreationTool";
 import ItemCards from "../../Components/ItemCards";
+import Layout from "../../UIKIT/Layout";
 
 const Admin = () => {
 
     return (
-        <div>
+        <Layout>
             <CategoryBar/>
             <SubcategoryBar/>
             <ExtendingBarsLayout>
@@ -19,7 +20,7 @@ const Admin = () => {
             </ExtendingBarsLayout>
             <ItemCreationTool/>
             <ItemCards/>
-        </div>
+        </Layout>
     );
 };
 

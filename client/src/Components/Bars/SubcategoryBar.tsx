@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import classes from '../../styles/Components/Bars/SubcategoryBar.module.scss'
-import {
-    createSubcategory,
-    fetchCategories,
-    setCurrentSubcategory
-} from "../../store/ActionCreators/CategoryActionCreators";
+import {createSubcategory} from "../../store/ActionCreators/Creating";
 import UIButton from "../../UIKIT/UIButton";
 import UIInput from "../../UIKIT/UIInput";
 import {FaCheck, FaPlus, FaTimes} from "react-icons/fa";
+import {fetchCategories} from "../../store/ActionCreators/Fetching";
+import {setCurrentSubcategory} from "../../store/ActionCreators/Setting";
 
 const SubcategoryBar = () => {
     const {subcategories, loading, error, currentSubcategory, currentCategory} = useAppSelector(state => state.categoryReducer)
