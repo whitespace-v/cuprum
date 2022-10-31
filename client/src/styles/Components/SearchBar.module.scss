@@ -1,0 +1,81 @@
+@import "../variables";
+.SearchBar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin: 20px 0 0 0;
+  &-basket{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    &-cart{
+      display: flex;
+      &-icon{
+        font-size: 32px;
+      }
+      &-count{
+        font-size: 14px;
+        background: $orange;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    &-amount{
+      font-size: 20px;
+      margin-left: 10px;
+    }
+  }
+  &-bar{
+    flex: 1;
+    & > * {
+      width: 100%;
+      input{
+        width: 100%;
+      }
+    }
+  }
+}
+.BasketModal{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9;
+  min-width: 70vw;
+  height: 90vh;
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: 0 0 4px $gray;
+  &-cross{
+    font-size: 32px;
+    cursor: pointer;
+    text-align: right;
+    padding: 10px;
+    svg:hover{
+      color: $orange;
+    }
+  }
+  &-items{
+    padding: 10px;
+    &-item{
+      display: flex;
+      &-image{
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+      }
+    }
+  }
+  &-empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 40px;
+  }
+}

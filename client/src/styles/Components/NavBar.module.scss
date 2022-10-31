@@ -1,6 +1,26 @@
 @import "../variables";
 .NavBar{
+  margin-top: 20px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &-nav{
+    display: flex;
+
+    gap: 20px;
+    & > * {
+      padding: 20px 0;
+    }
+    & > *:hover{
+      color: $orange
+    }
+    & > *:active, & > *:focus{
+      color: $gray;
+    }
+  }
+  &-contact{
+    display: flex;
+  }
   &-contact{
     &-message{
       & > *{

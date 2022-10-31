@@ -1,8 +1,20 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IAvailability, IBrand, ICategory, IItem, ISubcategory, IItems, ISorting} from "../../models/DataBaseItems";
+import {
+    IAvailability,
+    IBrand,
+    ICategory,
+    IItem,
+    ISubcategory,
+    IItems,
+    ISorting,
+    ICart
+} from "../../models/DataBaseItems";
 
 interface CategoryState {
     categories: ICategory[];
+    favourites: IItem[];
+    cart: ICart[];
+    cartSum: number;
     subcategories: ISubcategory[];
     availabilities: IAvailability[];
     brands: IBrand[];
@@ -23,7 +35,10 @@ interface CategoryState {
 }
 
 const initialState: CategoryState = {
+    cart: [],
+    favourites: [],
     categories: [],
+    cartSum: 0,
     userRole: 'Admin', //todo: redo!
     subcategories: [],
     availabilities: [],
@@ -97,6 +112,18 @@ export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            deleteFromCart(state, action: PayloadAction<IItem>){
+                state.cart = state.cart.filter( obj => obj.id !== action.payload.id);
+                //todo: remove all prices
+                state.cartSum -= action.payload.price
+            },
+            addToFavourites(state, action: PayloadAction<IItem>){
+                state.favourites = [...state.favourites, action.payload]
+            },
+            addToCart(state, action: PayloadAction<ICart>){ //todo: redo counts and items
+                state.cart = [{item: action.payload.item, count: action.payload.count}]
+                state.cartSum += action.payload.price
+            },
             pagesSet(state, action: PayloadAction<number>){
                 state.pages = Math.round(action.payload / state.limit)
             },

@@ -5,6 +5,7 @@ import {FaStar} from "react-icons/fa";
 import {RiHeart3Line, RiShoppingCartLine} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
 import {fetchItems} from "../store/ActionCreators/Fetching";
+import {addToFavourites, addToCart} from "../store/ActionCreators/Setting";
 
 const ItemCards = () => {
     const dispatch = useAppDispatch()
@@ -80,10 +81,16 @@ const ItemCards = () => {
                             </div>
                         }
                         <div className={classes['ItemCards__item-buttons-interactions']}>
-                            <div className={classes['ItemCards__item-buttons-interactions-like']}>
+                            <div className={classes['ItemCards__item-buttons-interactions-like']} onClick={e => {
+                                e.stopPropagation();
+                                dispatch(addToFavourites(i))
+                            }}>
                                 <RiHeart3Line/>
                             </div>
-                            <div className={classes['ItemCards__item-buttons-interactions-add']}>
+                            <div className={classes['ItemCards__item-buttons-interactions-add']} onClick={e => {
+                                e.stopPropagation();
+                                dispatch(addToCart(i))
+                            }}>
                                 <RiShoppingCartLine/>
                             </div>
                         </div>

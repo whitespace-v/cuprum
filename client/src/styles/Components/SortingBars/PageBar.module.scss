@@ -1,6 +1,7 @@
 .PageBar{
   display: flex;
   gap: 3px;
+  margin: 20px 0;
   & > * {
     margin-right: -10px;
   }

@@ -9,11 +9,13 @@ import Layout from "../../UIKIT/Layout";
 import CategoryBar from "../../Components/SortingBars/ExtendingBars/CategoryBar";
 import SubcategoryBar from "../../Components/SortingBars/SubcategoryBar";
 import NavBar from "../../Components/NavBar";
+import SearchBar from "../../Components/SearchBar";
 
 const Shop = () => {
     return (
         <Layout>
             <NavBar/>
+            <SearchBar/>
             <CategoryBar/>
             <SubcategoryBar/>
             <ExtendingBarsLayout>
