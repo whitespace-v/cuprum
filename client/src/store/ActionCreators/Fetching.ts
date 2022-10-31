@@ -8,7 +8,6 @@ export const fetchCategories = () => async(dispatch: AppDispatch) => {
         dispatch(categorySlice.actions.fetching())
         const {data} = await $host.get('api/category')
         dispatch(categorySlice.actions.categoryFetchingSuccess(data))
-        dispatch(categorySlice.actions.fetching())
         const {data: subcategories} = await $host.get('api/subcategory', {params: data[0]})
         dispatch(categorySlice.actions.subcategoryFetchingSuccess(subcategories))
     } catch (e) {

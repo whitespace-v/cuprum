@@ -13,7 +13,7 @@ const ItemCards = () => {
 
     useEffect(() => {
         dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand))
-    }, [currentCategory, currentSubcategory,currentAvailability, currentBrand])
+    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand])
     console.log(items)
     return (
         <div className={classes['ItemCards']}>
