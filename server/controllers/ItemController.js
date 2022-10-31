@@ -37,12 +37,12 @@ class ItemController {
 
     async getAll(req,res){
         //todo: limit, page, offset, search query, sorting into front
-        const {category, subcategory, availability, brand} = req.query
+        const {category, subcategory, availability, brand, sorting} = req.query
         const categoryId = Number(category.id)
         const subcategoryId = Number(subcategory.id)
         const brandId = Number(brand.id)
         let items
-        const sorting = {name: 'asc price'}
+        console.log(req.query)
         try {
             if (categoryId && subcategoryId && brandId && availability.name){
                 switch (sorting.name) {

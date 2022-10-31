@@ -9,11 +9,12 @@ import {fetchItems} from "../store/ActionCreators/Fetching";
 const ItemCards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const {items, currentCategory, currentSubcategory,currentAvailability, currentBrand} = useAppSelector(state => state.categoryReducer)
+    const {items, currentCategory, currentSubcategory,currentAvailability, currentBrand, currentSort} = useAppSelector(state => state.categoryReducer)
 
     useEffect(() => {
-        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand))
-    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand])
+        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort))
+    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort])
+
     console.log(items)
     return (
         <div className={classes['ItemCards']}>

@@ -1,4 +1,4 @@
-import {IAvailability, IBrand, ICategory, ISubcategory} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICategory, ISorting, ISubcategory} from "../../models/DataBaseItems";
 import {AppDispatch} from "../store";
 import {categorySlice} from "../slices/CategorySlice";
 import {$host} from "../../http";
@@ -13,6 +13,10 @@ export const setCurrentCategory = (category: ICategory) => async(dispatch: AppDi
         dispatch(categorySlice.actions.fetchingError())
     }
 }
+export const setCurrentSorting = (sorting: ISorting) => (dispatch: AppDispatch) => {
+    dispatch(categorySlice.actions.sortingSet(sorting))
+}
+
 export const setCurrentSubcategory = (subcategory: ISubcategory) => (dispatch: AppDispatch) => {
     dispatch(categorySlice.actions.subcategorySet(subcategory))
 }

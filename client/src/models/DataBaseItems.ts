@@ -56,3 +56,8 @@ export interface IItems {
     count: number;
     rows: IItem[];
 }
+export interface ISorting{
+    name: string;
+    rus: string
+}
+

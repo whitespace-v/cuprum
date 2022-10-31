@@ -1,7 +1,7 @@
 import {AppDispatch} from "../store";
 import {categorySlice} from "../slices/CategorySlice";
 import {$host} from "../../http";
-import {IAvailability, IBrand, ICategory, ISubcategory} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICategory, ISorting, ISubcategory} from "../../models/DataBaseItems";
 
 export const fetchCategories = () => async(dispatch: AppDispatch) => {
     try {
@@ -37,11 +37,11 @@ export const fetchBrands = () => async(dispatch: AppDispatch) => {
 
 //todo: logic
 export const fetchItems = (
-    category: ICategory, subcategory: ISubcategory, availability: IAvailability, brand: IBrand
+    category: ICategory, subcategory: ISubcategory, availability: IAvailability, brand: IBrand, sorting: ISorting
     ) => async(dispatch: AppDispatch) => {
     try {
         dispatch(categorySlice.actions.fetching())
-        const {data} = await $host.get('api/item', {params: {category, subcategory, availability, brand}})
+        const {data} = await $host.get('api/item', {params: {category, subcategory, availability, brand, sorting}})
         dispatch(categorySlice.actions.itemsFetchingSuccess(data))
     } catch (e) {
         dispatch(categorySlice.actions.fetchingError())

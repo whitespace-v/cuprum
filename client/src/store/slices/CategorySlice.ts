@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IAvailability, IBrand, ICategory, IItem, ISubcategory, IItems} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICategory, IItem, ISubcategory, IItems, ISorting} from "../../models/DataBaseItems";
 
 interface CategoryState {
     categories: ICategory[];
@@ -7,6 +7,8 @@ interface CategoryState {
     availabilities: IAvailability[];
     brands: IBrand[];
     items: IItems;
+    sorting: ISorting[];
+    currentSort: ISorting;
     currentCategory: ICategory;
     currentSubcategory: ISubcategory;
     currentAvailability: IAvailability;
@@ -21,6 +23,13 @@ const initialState: CategoryState = {
     subcategories: [],
     availabilities: [],
     brands: [],
+    sorting: [
+        {name: 'asc price', rus: 'сначала недорогие'},
+        {name: 'desc price', rus: 'сначала дорогие'},
+        {name: 'asc marks', rus: 'сначала непопулярные'},
+        {name: 'desc price', rus: 'сначала популярные'}
+    ],
+    currentSort: {name: '', rus: ''},
     items: {
         count: 0,
         rows: []
@@ -80,6 +89,9 @@ export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            sortingSet(state, action: PayloadAction<ISorting>){
+              state.currentSort = action.payload
+            },
             categorySet(state, action: PayloadAction<ICategory>){
                 state.currentCategory = action.payload
             },
