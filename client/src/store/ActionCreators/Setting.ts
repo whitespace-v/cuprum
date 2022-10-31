@@ -13,6 +13,11 @@ export const setCurrentCategory = (category: ICategory) => async(dispatch: AppDi
         dispatch(categorySlice.actions.fetchingError())
     }
 }
+export const setCurrentPage = (page: number) => (dispatch: AppDispatch) => {
+    dispatch(categorySlice.actions.pageSet(page))
+
+}
+
 export const setCurrentSorting = (sorting: ISorting) => (dispatch: AppDispatch) => {
     dispatch(categorySlice.actions.sortingSet(sorting))
 }

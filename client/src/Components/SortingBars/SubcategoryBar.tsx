@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import classes from '../../styles/Components/Bars/SubcategoryBar.module.scss'
+import classes from '../../styles/Components/SortingBars/SubcategoryBar.module.scss'
 import {createSubcategory} from "../../store/ActionCreators/Creating";
 import UIButton from "../../UIKIT/UIButton";
 import UIInput from "../../UIKIT/UIInput";

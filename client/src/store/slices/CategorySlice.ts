@@ -14,15 +14,22 @@ interface CategoryState {
     currentAvailability: IAvailability;
     currentBrand: IBrand;
     currentItem: IItem;
+    pages: number;
+    userRole: 'Admin' | 'User';
+    currentPage: number;
+    limit: number
     loading: boolean;
     error: boolean;
 }
 
 const initialState: CategoryState = {
     categories: [],
+    userRole: 'Admin', //todo: redo!
     subcategories: [],
     availabilities: [],
     brands: [],
+    currentPage: 1,
+    limit: 2,
     sorting: [
         {name: 'asc price', rus: 'сначала недорогие'},
         {name: 'desc price', rus: 'сначала дорогие'},
@@ -34,6 +41,7 @@ const initialState: CategoryState = {
         count: 0,
         rows: []
     },
+    pages: 0,
     currentCategory: {
         id: 0,
         name: '',
@@ -89,20 +97,31 @@ export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            pagesSet(state, action: PayloadAction<number>){
+                state.pages = Math.round(action.payload / state.limit)
+            },
+            pageSet(state, action: PayloadAction<number>){
+                state.currentPage = action.payload
+            },
             sortingSet(state, action: PayloadAction<ISorting>){
-              state.currentSort = action.payload
+                state.currentSort = action.payload
+                state.currentPage = 1
             },
             categorySet(state, action: PayloadAction<ICategory>){
                 state.currentCategory = action.payload
+                state.currentPage = 1
             },
             subcategorySet(state, action: PayloadAction<ISubcategory>){
                 state.currentSubcategory = action.payload
+                state.currentPage = 1
             },
             availabilitySet(state, action: PayloadAction<IAvailability>){
                 state.currentAvailability = action.payload
+                state.currentPage = 1
             },
             brandSet(state, action: PayloadAction<IBrand>){
                 state.currentBrand = action.payload
+                state.currentPage = 1
             },
             creation(state){
                 state.loading = true

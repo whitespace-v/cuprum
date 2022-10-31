@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import classes from '../../../styles/Components/Bars/ExtendingBar.module.scss'
+import classes from '../../../styles/Components/SortingBars/ExtendingBar.module.scss'
 import UIButton from "../../../UIKIT/UIButton";
 import UIInput from "../../../UIKIT/UIInput";
 import {FaCheck, FaPlus, FaTimes} from "react-icons/fa";

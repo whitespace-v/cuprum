@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import UIButton from "../../../UIKIT/UIButton";
 import {FaCheck, FaPlus, FaTimes} from "react-icons/fa";
-import classes from '../../../styles/Components/Bars/CategoryBar.module.scss'
+import classes from '../../../styles/Components/SortingBars/CategoryBar.module.scss'
 import UIInput from "../../../UIKIT/UIInput";
 import {createCategory} from "../../../store/ActionCreators/Creating";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";

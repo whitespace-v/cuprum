@@ -36,282 +36,282 @@ class ItemController {
     }
 
     async getAll(req,res){
-        //todo: limit, page, offset, search query, sorting into front
-        const {category, subcategory, availability, brand, sorting} = req.query
+        //todo: search query here and in front
+        const {category, subcategory, availability, brand, sorting, page, limit} = req.query
         const categoryId = Number(category.id)
         const subcategoryId = Number(subcategory.id)
         const brandId = Number(brand.id)
+        let offset = page * limit - limit
         let items
-        console.log(req.query)
         try {
             if (categoryId && subcategoryId && brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && subcategoryId && brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && subcategoryId && brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && !subcategoryId && brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && subcategoryId && !brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && subcategoryId && !brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && !subcategoryId && brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, brandId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, brandId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && !subcategoryId && !brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (categoryId && !subcategoryId && !brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {categoryId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {categoryId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {categoryId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {categoryId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {categoryId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && subcategoryId && brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && subcategoryId && !brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && !subcategoryId && brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && !subcategoryId && brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {brandId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {brandId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {brandId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {brandId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {brandId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && subcategoryId && !brandId && !availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {subcategoryId}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {subcategoryId}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {subcategoryId}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             if (!categoryId && !subcategoryId && !brandId && availability.name){
                 switch (sorting.name) {
                     case 'asc price':
-                        items = await Item.findAndCountAll({where: {availability: availability.name}, order: [['price', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
                         break
                     case 'desc price':
-                        items = await Item.findAndCountAll({where: {availability: availability.name}, order: [['price', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
                         break
                     case 'asc marks':
-                        items = await Item.findAndCountAll({where: {availability: availability.name}, order: [['marksCount', 'ASC']]})
+                        items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
                         break
                     case 'desc marks':
-                        items = await Item.findAndCountAll({where: {availability: availability.name}, order: [['marksCount', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
                         break
                     default:
-                        items = await Item.findAndCountAll({where: {availability: availability.name}, order: [['id', 'DESC']]})
+                        items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
             }
             return res.json(items)

@@ -1,0 +1,19 @@
+@import "../variables";
+.NavBar{
+  display: flex;
+  &-contact{
+    &-message{
+      & > *{
+        color: $orange;
+      }
+      & > *:hover{
+        background-color: $orange;
+        color: $white;
+      }
+      & > *:focus, & > *:active{
+        background-color: gray;
+        color: $white;
+      }
+    }
+  }
+}

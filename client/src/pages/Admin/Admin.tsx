@@ -1,13 +1,14 @@
 import React from 'react';
-import CategoryBar from "../../Components/Bars/ExtendingBars/CategoryBar";
-import SubcategoryBar from "../../Components/Bars/SubcategoryBar";
-import AvailabilityBar from "../../Components/Bars/ExtendingBars/AvailabilityBar";
-import BrandBar from "../../Components/Bars/ExtendingBars/BrandBar";
-import ExtendingBarsLayout from "../../Components/Bars/ExtendingBars/ExtendingBarsLayout";
+import CategoryBar from "../../Components/SortingBars/ExtendingBars/CategoryBar";
+import SubcategoryBar from "../../Components/SortingBars/SubcategoryBar";
+import AvailabilityBar from "../../Components/SortingBars/ExtendingBars/AvailabilityBar";
+import BrandBar from "../../Components/SortingBars/ExtendingBars/BrandBar";
+import ExtendingBarsLayout from "../../Components/SortingBars/ExtendingBars/ExtendingBarsLayout";
 import ItemCreationTool from "../../Components/ItemCreationTool";
 import ItemCards from "../../Components/ItemCards";
 import Layout from "../../UIKIT/Layout";
-import SortingBar from "../../Components/Bars/SortingBar";
+import SortingBar from "../../Components/SortingBars/SortingBar";
+import PageBar from "../../Components/SortingBars/PageBar";
 
 const Admin = () => {
 
@@ -22,6 +23,7 @@ const Admin = () => {
             </ExtendingBarsLayout>
             <ItemCreationTool/>
             <ItemCards/>
+            <PageBar/>
         </Layout>
     );
 };

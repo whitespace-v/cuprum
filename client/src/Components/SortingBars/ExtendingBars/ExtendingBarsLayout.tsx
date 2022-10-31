@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from '../../../styles/Components/Bars/ExtendingBarsLayout.module.scss'
+import classes from '../../../styles/Components/SortingBars/ExtendingBarsLayout.module.scss'
 
 const ExtendingBarsLayout = ({children}: {children: React.ReactNode}) => {
     return (

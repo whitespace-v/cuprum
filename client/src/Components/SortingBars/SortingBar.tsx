@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import classes from '../../styles/Components/Bars/ExtendingBar.module.scss'
+import classes from '../../styles/Components/SortingBars/ExtendingBar.module.scss'
 import UIButton from "../../UIKIT/UIButton";
 import {setCurrentSorting} from "../../store/ActionCreators/Setting";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";

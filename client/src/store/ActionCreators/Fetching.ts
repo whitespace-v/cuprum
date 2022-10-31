@@ -37,12 +37,14 @@ export const fetchBrands = () => async(dispatch: AppDispatch) => {
 
 //todo: logic
 export const fetchItems = (
-    category: ICategory, subcategory: ISubcategory, availability: IAvailability, brand: IBrand, sorting: ISorting
+    category: ICategory, subcategory: ISubcategory, availability: IAvailability, brand: IBrand, sorting: ISorting,
+    currentPage: number, limit: number
     ) => async(dispatch: AppDispatch) => {
     try {
         dispatch(categorySlice.actions.fetching())
-        const {data} = await $host.get('api/item', {params: {category, subcategory, availability, brand, sorting}})
+        const {data} = await $host.get('api/item', {params: {category, subcategory, availability, brand, sorting, page: currentPage, limit}})
         dispatch(categorySlice.actions.itemsFetchingSuccess(data))
+        dispatch(categorySlice.actions.pagesSet(data.count))
     } catch (e) {
         dispatch(categorySlice.actions.fetchingError())
     }
