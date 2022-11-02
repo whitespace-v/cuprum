@@ -9,14 +9,12 @@
 .ExtendingBar__content{
   position: absolute;
   z-index: 10;
-  background-color: #fff;
+  background-color: $bg-gray;
   padding: 10px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 4px $gray;
-  //align-items: center;
-  //gap: 5px;
   &-creation{
     display: flex;
     gap: 5px;

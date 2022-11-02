@@ -6,16 +6,9 @@
   align-items: center;
   &-nav{
     display: flex;
-
     gap: 20px;
     & > * {
       padding: 20px 0;
-    }
-    & > *:hover{
-      color: $orange
-    }
-    & > *:active, & > *:focus{
-      color: $gray;
     }
   }
   &-contact{
@@ -27,8 +20,8 @@
         color: $orange;
       }
       & > *:hover{
-        background-color: $orange;
-        color: $white;
+        background-color: $white;
+        color: $black;
       }
       & > *:focus, & > *:active{
         background-color: gray;

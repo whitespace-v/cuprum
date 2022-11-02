@@ -37,12 +37,13 @@ class ItemController {
 
     async getAll(req,res){
         //todo: search query here and in front
-        const {category, subcategory, availability, brand, sorting, page, limit} = req.query
+        const {category, subcategory, availability, brand, sorting, page, limit, query} = req.query
         const categoryId = Number(category.id)
         const subcategoryId = Number(subcategory.id)
         const brandId = Number(brand.id)
         let offset = page * limit - limit
         let items
+        console.log(query)
         try {
             if (categoryId && subcategoryId && brandId && availability.name){
                 switch (sorting.name) {
@@ -205,6 +206,7 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
+                // items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('descriptionS')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['id', 'DESC']]})
             }
             if (!categoryId && subcategoryId && brandId && !availability.name){
                 switch (sorting.name) {

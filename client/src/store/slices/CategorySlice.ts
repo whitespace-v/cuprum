@@ -7,18 +7,18 @@ import {
     ISubcategory,
     IItems,
     ISorting,
-    ICart
+    ICartItem
 } from "../../models/DataBaseItems";
+import {isItemInCart} from "../../hoc/isItemInCart";
 
 interface CategoryState {
     categories: ICategory[];
-    favourites: IItem[];
-    cart: ICart[];
-    cartSum: number;
+    cartItems: ICartItem[];
     subcategories: ISubcategory[];
     availabilities: IAvailability[];
     brands: IBrand[];
     items: IItems;
+    query: string;
     sorting: ISorting[];
     currentSort: ISorting;
     currentCategory: ICategory;
@@ -35,16 +35,15 @@ interface CategoryState {
 }
 
 const initialState: CategoryState = {
-    cart: [],
-    favourites: [],
+    cartItems: [],
     categories: [],
-    cartSum: 0,
     userRole: 'Admin', //todo: redo!
     subcategories: [],
     availabilities: [],
     brands: [],
     currentPage: 1,
-    limit: 2,
+    limit: 15,
+    query: '',
     sorting: [
         {name: 'asc price', rus: 'сначала недорогие'},
         {name: 'desc price', rus: 'сначала дорогие'},
@@ -112,17 +111,25 @@ export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            setQuery(state, action: PayloadAction<string>) {
+                state.query = action.payload
+            },
+            cartItemCountControl(state, action: PayloadAction<ICartItem>,){
+                let idx = state.cartItems.findIndex(x => x.item.id === action.payload.item.id)
+                if (state.cartItems[idx].count > 1){
+                    state.cartItems[idx].count += action.payload.count
+                }
+                if (state.cartItems[idx].count === 1 && action.payload.count === 1){
+                    state.cartItems[idx].count += action.payload.count
+                }
+            },
             deleteFromCart(state, action: PayloadAction<IItem>){
-                state.cart = state.cart.filter( obj => obj.id !== action.payload.id);
-                //todo: remove all prices
-                state.cartSum -= action.payload.price
+                state.cartItems = state.cartItems.filter(x => x.item.id !== action.payload.id)
             },
-            addToFavourites(state, action: PayloadAction<IItem>){
-                state.favourites = [...state.favourites, action.payload]
-            },
-            addToCart(state, action: PayloadAction<ICart>){ //todo: redo counts and items
-                state.cart = [{item: action.payload.item, count: action.payload.count}]
-                state.cartSum += action.payload.price
+            addToCart(state, action: PayloadAction<IItem>){
+                if (!isItemInCart(action.payload, state.cartItems)) {
+                    state.cartItems = [...state.cartItems, {item: action.payload, count: 1}]
+                }
             },
             pagesSet(state, action: PayloadAction<number>){
                 state.pages = Math.round(action.payload / state.limit)

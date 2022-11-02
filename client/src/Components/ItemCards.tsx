@@ -1,22 +1,24 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 import classes from '../styles/Components/ItemCards.module.scss'
-import {FaStar} from "react-icons/fa";
-import {RiHeart3Line, RiShoppingCartLine} from "react-icons/ri";
+import {FaCheck, FaMinus, FaPlus, FaStar, FaTimes} from "react-icons/fa";
+import {RiShoppingCartLine} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
 import {fetchItems} from "../store/ActionCreators/Fetching";
-import {addToFavourites, addToCart} from "../store/ActionCreators/Setting";
+import {addToCart, cartItemCountControl, deleteFromCart} from "../store/ActionCreators/Setting";
+import {isItemInCart} from "../hoc/isItemInCart";
 
 const ItemCards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const {items, currentCategory, currentSubcategory,currentAvailability, currentBrand, currentSort, currentPage, limit} = useAppSelector(state => state.categoryReducer)
+    const {items, currentCategory, currentSubcategory,currentAvailability, currentBrand, currentSort, currentPage, limit, cartItems, query} = useAppSelector(state => state.categoryReducer)
 
     useEffect(() => {
-        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit))
-    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage])
+        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit, query))
+    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, query])
 
-    console.log(items)
+    console.log('items:',items)
+    console.log('cart:', cartItems)
     return (
         <div className={classes['ItemCards']}>
             {items && items.rows && items.rows.map(i => (
@@ -80,21 +82,49 @@ const ItemCards = () => {
                                 {i.price.toLocaleString('ru')} ₽
                             </div>
                         }
-                        <div className={classes['ItemCards__item-buttons-interactions']}>
-                            <div className={classes['ItemCards__item-buttons-interactions-like']} onClick={e => {
-                                e.stopPropagation();
-                                dispatch(addToFavourites(i))
-                            }}>
-                                <RiHeart3Line/>
+                        {isItemInCart(i, cartItems) ?
+                            <div className={classes['ItemCards__item-buttons-interactions']}>
+                                <div className={classes['ItemCards__item-buttons-interactions-count']} onClick={e => {
+                                    e.stopPropagation();
+                                    dispatch(addToCart(i))
+                                }}>
+                                    <div className={classes['ItemCards__item-buttons-interactions-count-handler']}
+                                         onClick={e => {
+                                             e.stopPropagation();
+                                             dispatch(cartItemCountControl(i, -1))
+                                         }}
+                                    >
+                                        <FaMinus/>
+                                    </div>
+                                    <div className={classes['ItemCards__item-buttons-interactions-count-number']}>
+                                        {cartItems[cartItems.findIndex(x => x.item.id === i.id)].count}
+                                    </div>
+                                    <div className={classes['ItemCards__item-buttons-interactions-count-handler']}
+                                         onClick={e => {
+                                             e.stopPropagation();
+                                             dispatch(cartItemCountControl(i, 1))
+                                         }}
+                                    >
+                                        <FaPlus/>
+                                    </div>
+                                </div>
+                                <div className={classes['ItemCards__item-buttons-interactions-checked']} onClick={e => {
+                                    e.stopPropagation();
+                                    dispatch(deleteFromCart(i))
+                                }}>
+                                    <FaCheck/>
+                                </div>
                             </div>
-                            <div className={classes['ItemCards__item-buttons-interactions-add']} onClick={e => {
-                                e.stopPropagation();
-                                dispatch(addToCart(i))
-                            }}>
-                                <RiShoppingCartLine/>
+                            :
+                            <div className={classes['ItemCards__item-buttons-interactions']}>
+                                <div className={classes['ItemCards__item-buttons-interactions-add']} onClick={e => {
+                                    e.stopPropagation();
+                                    dispatch(addToCart(i))
+                                }}>
+                                    <RiShoppingCartLine/>
+                                </div>
                             </div>
-                        </div>
-
+                        }
                     </div>
                 </div>
             ))}

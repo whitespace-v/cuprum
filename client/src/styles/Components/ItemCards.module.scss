@@ -9,7 +9,7 @@
     min-width: 200px;
     width: fit-content;
     //height: 300px;
-    background: $white;
+    background: $gray ;
     display: flex;
     flex-direction: column;
     border-radius: 12px;
@@ -17,7 +17,7 @@
     padding: 20px;
     &-vendor{
       font-size: 14px;
-      color: $gray;
+      color: $dark-white;
       text-align: right;
       margin: 0 10px 5px 0;
     }
@@ -26,20 +26,23 @@
       height: 100px;
       background-size: cover;
       margin: 0 auto;
+      border-radius: 6px;
     }
     &-name{
       font-size: 16px;
       font-weight: 400;
+      color: $white;
       margin: 10px 0 20px 0;
     }
     &-description{
       font-size: 14px;
-      color: $gray;
       width: 200px;
+      color: $dark-white;
       height: 90px;
     }
     &-availability{
       margin: 20px 0;
+      color: $white;
       span{
         color: $orange;
       }
@@ -50,10 +53,14 @@
       padding: 5px 10px;
       margin-top: 10px;
       border-radius: 6px;
+      color: $white;
       &-stars {
         display: flex;
         &-full {
           color: $orange;
+        }
+        &-empty{
+          color: $white;
         }
         &-full,&-empty{
           display: flex;
@@ -86,6 +93,7 @@
       &-price{
         font-weight: 600;
         font-size: 24px;
+        color: $white;
       }
       &-interactions{
         display: flex;
@@ -95,6 +103,7 @@
           cursor: pointer;
           font-size: 28px;
           background-color: $bg-gray;
+          color: $white;
           padding: 10px;
           display: flex;
           justify-content: center;
@@ -110,6 +119,44 @@
           color: $white;
           transition: none;
         }
+        &-checked{
+          color: $orange;
+        }
+        &-checked:hover{
+          color: $gray;
+        }
+        &-count, &-checked{
+          background-color: $bg-gray;
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+          border-radius: 6px;
+          font-size: 24px;
+          &-handler{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 0;
+            font-weight: bold;
+            color: $orange;
+          }
+          &-handler:hover{
+            color: $gray;
+          }
+          &-number{
+            background-color: transparent;
+            outline: none;
+            width: 50px;
+            font-size: 24px;
+            color: $white;
+            border: none;
+            border-bottom: 2px solid $white;
+            text-align: center;
+            user-select: none;
+          }
+        }
       }
     }
   }
@@ -117,4 +164,15 @@
     box-shadow: 0 8px 8px $gray;
     transition: all linear 100ms;
   }
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

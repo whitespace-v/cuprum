@@ -1,4 +1,4 @@
-import {IAvailability, IBrand, ICategory, IItem, ISorting, ISubcategory} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICartItem, ICategory, IItem, ISorting, ISubcategory} from "../../models/DataBaseItems";
 import {AppDispatch} from "../store";
 import {categorySlice} from "../slices/CategorySlice";
 import {$host} from "../../http";
@@ -31,12 +31,15 @@ export const setCurrentAvailability = (availability: IAvailability) => (dispatch
 export const setCurrentBrand = (brand: IBrand) => (dispatch: AppDispatch) => {
     dispatch(categorySlice.actions.brandSet(brand))
 }
-export const addToFavourites = (item: IItem) => (dispatch: AppDispatch) => {
-    dispatch(categorySlice.actions.addToFavourites(item))
-}
 export const addToCart = (item: IItem) => (dispatch: AppDispatch) => {
     dispatch(categorySlice.actions.addToCart(item))
 }
 export const deleteFromCart = (item: IItem) => (dispatch: AppDispatch) => {
     dispatch(categorySlice.actions.deleteFromCart(item))
+}
+export const cartItemCountControl = (item: IItem, count: number) => (dispatch: AppDispatch) => {
+    dispatch(categorySlice.actions.cartItemCountControl({item, count}))
+}
+export const setQuery = (query: string) => (dispatch: AppDispatch) => {
+    dispatch(categorySlice.actions.setQuery(query))
 }

@@ -60,7 +60,7 @@ export interface ISorting{
     name: string;
     rus: string
 }
-export interface ICart{
+export interface ICartItem{
     count: number,
     item: IItem
 }

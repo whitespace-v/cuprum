@@ -10,7 +10,7 @@ import {fetchItems} from "../store/ActionCreators/Fetching";
 
 const ItemCreationTool = () => {
     const dispatch = useAppDispatch()
-    const {currentAvailability, currentSubcategory, currentCategory, currentBrand, currentSort, currentPage, limit} = useAppSelector(state => state.categoryReducer)
+    const {currentAvailability, currentSubcategory, currentCategory, currentBrand, currentSort, currentPage, limit, query} = useAppSelector(state => state.categoryReducer)
     const [creationMode, setCreationMode] = useState<boolean>(false)
     const [name, setName] = useState<string>('')
     const [description, setDescription] = useState<string>('')
@@ -29,7 +29,7 @@ const ItemCreationTool = () => {
                 compressedImages.push(c)
             }
             dispatch(createItem(name, description, price, compressedImages, currentAvailability, currentBrand, currentCategory, currentSubcategory))
-            dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit))
+            dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit, query))
             setCreationMode(false)
             setName('')
             setDescription('')
