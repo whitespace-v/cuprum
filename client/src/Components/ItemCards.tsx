@@ -6,7 +6,7 @@ import {RiShoppingCartLine} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
 import {fetchItems} from "../store/ActionCreators/Fetching";
 import {addToCart, cartItemCountControl, deleteFromCart} from "../store/ActionCreators/Setting";
-import {isItemInCart} from "../hoc/isItemInCart";
+import {isItemInCart} from "../hof/isItemInCart";
 
 const ItemCards = () => {
     const dispatch = useAppDispatch()
@@ -17,8 +17,8 @@ const ItemCards = () => {
         dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit, query))
     }, [currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, query])
 
-    console.log('items:',items)
-    console.log('cart:', cartItems)
+    // console.log('items:',items)
+    // console.log('cart:', cartItems)
     return (
         <div className={classes['ItemCards']}>
             {items && items.rows && items.rows.map(i => (

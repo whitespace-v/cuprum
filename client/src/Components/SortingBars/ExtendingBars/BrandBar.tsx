@@ -10,7 +10,7 @@ import {setCurrentBrand} from "../../../store/ActionCreators/Setting";
 
 const BrandBar = () => {
     const dispatch = useAppDispatch()
-    const {brands, currentBrand} = useAppSelector(state => state.categoryReducer)
+    const {brands, currentBrand, user} = useAppSelector(state => state.categoryReducer)
 
     const [contentActive, setContentActive] = useState<boolean>(false)
     const [brandCreation, setBrandCreation] = useState<boolean>(false)
@@ -54,22 +54,27 @@ const BrandBar = () => {
                     ))}
 
                     {brandCreation ?
-                        <div className={classes['ExtendingBar__content-creation']}>
-                            <UIInput
-                                value={brandCreationName}
-                                type={'primary'}
-                                placeholder={'Производитель...'}
-                                onChange={(e: React.FormEvent<HTMLInputElement>) => setBrandCreationName(e.currentTarget.value)}
-                            />
-                            <UIButton type={'icon'} onClick={e => brandCreationHandler(e)}><FaCheck/></UIButton>
-                            <UIButton type={'icon'}
-                                onClick={() => {
-                                    setBrandCreation(false);
-                                    setBrandCreationName('')}}
-                            ><FaTimes/></UIButton>
-                        </div>
+                        <>
+                            {user === 'Admin' &&
+                                <div className={classes['ExtendingBar__content-creation']}>
+                                    <UIInput
+                                        value={brandCreationName}
+                                        type={'primary'}
+                                        placeholder={'Производитель...'}
+                                        onChange={(e: React.FormEvent<HTMLInputElement>) => setBrandCreationName(e.currentTarget.value)}
+                                    />
+                                    <UIButton type={'icon'} onClick={e => brandCreationHandler(e)}><FaCheck/></UIButton>
+                                    <UIButton type={'icon'}
+                                              onClick={() => {
+                                                  setBrandCreation(false);
+                                                  setBrandCreationName('')}}
+                                    ><FaTimes/></UIButton>
+                                </div>}
+                        </>
                         :
-                        <UIButton type={'icon'} onClick={() => setBrandCreation(true)}><FaPlus/></UIButton>
+                        <>
+                            {user === 'Admin' && <UIButton type={'icon'} onClick={() => setBrandCreation(true)}><FaPlus/></UIButton>}
+                        </>
                     }
                 </div>
             }

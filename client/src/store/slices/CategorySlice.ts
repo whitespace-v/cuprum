@@ -9,7 +9,7 @@ import {
     ISorting,
     ICartItem
 } from "../../models/DataBaseItems";
-import {isItemInCart} from "../../hoc/isItemInCart";
+import {isItemInCart} from "../../hof/isItemInCart";
 
 interface CategoryState {
     categories: ICategory[];
@@ -27,17 +27,23 @@ interface CategoryState {
     currentBrand: IBrand;
     currentItem: IItem;
     pages: number;
-    userRole: 'Admin' | 'User';
+    user: string;
+    isAuth: boolean;
     currentPage: number;
     limit: number
     loading: boolean;
     error: boolean;
+    loginError: boolean;
+    registerError: boolean;
 }
 
 const initialState: CategoryState = {
     cartItems: [],
     categories: [],
-    userRole: 'Admin', //todo: redo!
+    loginError: false,
+    registerError: false,
+    user: '',
+    isAuth: false,
     subcategories: [],
     availabilities: [],
     brands: [],
@@ -48,13 +54,10 @@ const initialState: CategoryState = {
         {name: 'asc price', rus: 'сначала недорогие'},
         {name: 'desc price', rus: 'сначала дорогие'},
         {name: 'asc marks', rus: 'сначала непопулярные'},
-        {name: 'desc price', rus: 'сначала популярные'}
+        {name: 'desc marks', rus: 'сначала популярные'}
     ],
     currentSort: {name: '', rus: ''},
-    items: {
-        count: 0,
-        rows: []
-    },
+    items: {count: 0, rows: []},
     pages: 0,
     currentCategory: {
         id: 0,
@@ -111,6 +114,21 @@ export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            signUpError(state) {
+                state.registerError = true
+            },
+            signInError(state) {
+                state.loginError = true
+            },
+            signIn(state, action: PayloadAction<any>) {
+                state.loginError = false
+                state.user = action.payload
+                state.isAuth = true
+            },
+            signingIn(state) {
+                state.loading = true
+                state.loginError = false
+            },
             setQuery(state, action: PayloadAction<string>) {
                 state.query = action.payload
             },

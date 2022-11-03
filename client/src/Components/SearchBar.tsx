@@ -7,12 +7,18 @@ import UIButton from "../UIKIT/UIButton";
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 import {FaMinus, FaPlus, FaTimes} from "react-icons/fa";
 import {cartItemCountControl, deleteFromCart, setQuery} from "../store/ActionCreators/Setting";
-import {getCartSum} from "../hoc/getCartSum";
+import {getCartSum} from "../hof/getCartSum";
+import useLockedBody from "../hof/useLockedBody";
 
 const SearchBar = () => {
     const dispatch = useAppDispatch()
     const {query, cartItems} = useAppSelector(state => state.categoryReducer)
+    const [locked, setLocked] = useLockedBody(true, 'root')
     const [basketActive, setBasketActive] = useState<boolean>(false)
+
+    useEffect(() => {
+        setLocked(!locked)
+    }, [basketActive])
 
     //todo: set timeout to dispatching
 
@@ -42,7 +48,7 @@ const SearchBar = () => {
                 </div>
             </div>
             {basketActive &&
-                <>
+                <div className={classes['Backdrop']}>
                     <div className={classes['BasketModal-cross']}>
                         <FaTimes onClick={() => setBasketActive(!basketActive)}/>
                     </div>
@@ -84,7 +90,7 @@ const SearchBar = () => {
                         }
 
                     </div>
-                </>
+                </div>
             }
         </>
 

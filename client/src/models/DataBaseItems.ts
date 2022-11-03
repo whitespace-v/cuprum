@@ -64,3 +64,11 @@ export interface ICartItem{
     count: number,
     item: IItem
 }
+
+export interface IToken{
+    id: number,
+    login: string,
+    role: string,
+    iat: number,
+    exp: number
+}

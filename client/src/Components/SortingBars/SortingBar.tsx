@@ -8,7 +8,6 @@ const SortingBar = () => {
     const dispatch = useAppDispatch()
     const [contentActive, setContentActive] = useState<boolean>(false)
     const {currentSort, sorting} = useAppSelector(state => state.categoryReducer)
-
     return (
         <div className={classes['SortingBar']}>
             <div className={classes['ExtendingBar__bar']}>

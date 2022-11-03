@@ -10,7 +10,7 @@ import {setCurrentAvailability} from "../../../store/ActionCreators/Setting";
 
 const AvailabilityBar = () => {
     const dispatch = useAppDispatch()
-    const {availabilities, currentAvailability} = useAppSelector(state => state.categoryReducer)
+    const {availabilities, currentAvailability, user} = useAppSelector(state => state.categoryReducer)
 
     const [contentActive, setContentActive] = useState<boolean>(false)
     const [availabilityCreation, setAvailabilityCreation] = useState<boolean>(false)
@@ -54,21 +54,25 @@ const AvailabilityBar = () => {
                     ))}
 
                     {availabilityCreation ?
-                        <div className={classes['ExtendingBar__content-creation']}>
-                            <UIInput
-                                value={availabilityCreationName}
-                                type={'primary'}
-                                placeholder={'Наличие...'}
-                                onChange={(e: React.FormEvent<HTMLInputElement>) => setAvailabilityCreationName(e.currentTarget.value)}
-                            />
-                            <UIButton type={'icon'} onClick={e => availableCreationHandler(e)}><FaCheck/></UIButton>
-                            <UIButton type={'icon'} onClick={() => {
-                                setAvailabilityCreation(false);
-                                setAvailabilityCreationName('')}}
-                            ><FaTimes/></UIButton>
-                        </div>
+                        <>
+                            {user === 'Admin' &&
+                                <div className={classes['ExtendingBar__content-creation']}>
+                                    <UIInput
+                                        value={availabilityCreationName}
+                                        type={'primary'}
+                                        placeholder={'Наличие...'}
+                                        onChange={(e: React.FormEvent<HTMLInputElement>) => setAvailabilityCreationName(e.currentTarget.value)}
+                                    />
+                                    <UIButton type={'icon'} onClick={e => availableCreationHandler(e)}><FaCheck/></UIButton>
+                                    <UIButton type={'icon'} onClick={() => {
+                                        setAvailabilityCreation(false);
+                                        setAvailabilityCreationName('')}}
+                                    ><FaTimes/></UIButton>
+                                </div>
+                            }
+                        </>
                         :
-                        <UIButton type={'icon'} onClick={() => setAvailabilityCreation(true)}><FaPlus/></UIButton>
+                        <> {user ==='Admin' && <UIButton type={'icon'} onClick={() => setAvailabilityCreation(true)}><FaPlus/></UIButton>}</>
                     }
                 </div>
             }

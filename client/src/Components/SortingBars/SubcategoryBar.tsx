@@ -9,7 +9,7 @@ import {fetchCategories} from "../../store/ActionCreators/Fetching";
 import {setCurrentSubcategory} from "../../store/ActionCreators/Setting";
 
 const SubcategoryBar = () => {
-    const {subcategories, loading, error, currentSubcategory, currentCategory} = useAppSelector(state => state.categoryReducer)
+    const {subcategories, loading, error, currentSubcategory, currentCategory, user} = useAppSelector(state => state.categoryReducer)
     const dispatch = useAppDispatch()
 
     const [subcategoryCreation, setSubcategoryCreation] = useState<boolean>(false)
@@ -43,25 +43,27 @@ const SubcategoryBar = () => {
                 }
                 {subcategoryCreation ?
                     <>
-                        <UIInput
-                            value={subcategoryCreationName}
-                            type={'primary'}
-                            placeholder={'Подкатегория...'}
-                            onChange={(e: React.FormEvent<HTMLInputElement>) => setSubcategoryCreationName(e.currentTarget.value)}
-                        />
-                        <>
-                            <UIButton type={'icon'} onClick={e => subcategoryCreationHandler(e)}><FaCheck/></UIButton>
-                            <UIButton type={'icon'} onClick={() => {
-                                setSubcategoryCreation(false);
-                                setSubcategoryCreationName('')
-                            }}><FaTimes/></UIButton>
+                        {user === 'Admin' && <>
+                            <UIInput
+                                value={subcategoryCreationName}
+                                type={'primary'}
+                                placeholder={'Подкатегория...'}
+                                onChange={(e: React.FormEvent<HTMLInputElement>) => setSubcategoryCreationName(e.currentTarget.value)}
+                            />
+                            <>
+                                <UIButton type={'icon'} onClick={e => subcategoryCreationHandler(e)}><FaCheck/></UIButton>
+                                <UIButton type={'icon'} onClick={() => {
+                                    setSubcategoryCreation(false);
+                                    setSubcategoryCreationName('')
+                                }}><FaTimes/></UIButton>
+                            </>
                         </>
+                        }
                     </>
-                    :
-                    <UIButton type={'icon'} onClick={() => setSubcategoryCreation(true)}><FaPlus/></UIButton>
+                    :<>
+                        {user === 'Admin' && <UIButton type={'icon'} onClick={() => setSubcategoryCreation(true)}><FaPlus/></UIButton> }
+                    </>
                 }
-                {loading && <p>loading....</p>}
-                {error && <p>error....</p>}
             </div>
         </div>
     );
