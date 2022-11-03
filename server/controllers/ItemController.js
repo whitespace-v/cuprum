@@ -36,16 +36,14 @@ class ItemController {
     }
 
     async getAll(req,res){
-        //todo: search query here and in front
         const {category, subcategory, availability, brand, sorting, page, limit, query} = req.query
         const categoryId = Number(category.id)
         const subcategoryId = Number(subcategory.id)
         const brandId = Number(brand.id)
         let offset = page * limit - limit
         let items
-        console.log(query)
         try {
-            if (categoryId && subcategoryId && brandId && availability.name){
+            if (categoryId && subcategoryId && brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -62,8 +60,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && subcategoryId && brandId && !availability.name){
+            } //ABCD
+            if (categoryId && subcategoryId && brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['price', 'ASC']]})
@@ -80,8 +78,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, brandId, subcategoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (!categoryId && subcategoryId && brandId && availability.name){
+            } //ABC
+            if (!categoryId && subcategoryId && brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -98,8 +96,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {subcategoryId, brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && !subcategoryId && brandId && availability.name){
+            } //BCD
+            if (categoryId && !subcategoryId && brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -116,8 +114,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && subcategoryId && !brandId && availability.name){
+            } //ACD
+            if (categoryId && subcategoryId && !brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -134,8 +132,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, subcategoryId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && subcategoryId && !brandId && !availability.name){
+            } //ABD
+            if (categoryId && subcategoryId && !brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['price', 'ASC']]})
@@ -152,8 +150,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, subcategoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && !subcategoryId && brandId && !availability.name){
+            } //AB
+            if (categoryId && !subcategoryId && brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
@@ -170,8 +168,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && !subcategoryId && !brandId && availability.name){
+            } //AC
+            if (categoryId && !subcategoryId && !brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -188,8 +186,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (categoryId && !subcategoryId && !brandId && !availability.name){
+            } //AD
+            if (categoryId && !subcategoryId && !brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['price', 'ASC']]})
@@ -206,9 +204,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
-                // items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('descriptionS')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['id', 'DESC']]})
-            }
-            if (!categoryId && subcategoryId && brandId && !availability.name){
+             } //A
+            if (!categoryId && subcategoryId && brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
@@ -225,8 +222,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {subcategoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (!categoryId && subcategoryId && !brandId && availability.name){
+            } //BC
+            if (!categoryId && subcategoryId && !brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -243,8 +240,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {subcategoryId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (!categoryId && !subcategoryId && brandId && availability.name){
+            } //BD
+            if (!categoryId && !subcategoryId && brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -261,8 +258,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {brandId, availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (!categoryId && !subcategoryId && brandId && !availability.name){
+            } //CD
+            if (!categoryId && !subcategoryId && brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['price', 'ASC']]})
@@ -279,8 +276,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (!categoryId && subcategoryId && !brandId && !availability.name){
+            } //C
+            if (!categoryId && subcategoryId && !brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['price', 'ASC']]})
@@ -297,8 +294,8 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {subcategoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
-            if (!categoryId && !subcategoryId && !brandId && availability.name){
+            } //B
+            if (!categoryId && !subcategoryId && !brandId && availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
                         items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
@@ -315,16 +312,232 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
                 }
-            }
+            } //D
+            if (!categoryId && !subcategoryId && !brandId && !availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%')}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //F
+            if (categoryId && !subcategoryId && !brandId && !availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), categoryId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), categoryId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), categoryId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), categoryId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), categoryId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //AF
+            if (!categoryId && subcategoryId && !brandId && !availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //BF
+            if (!categoryId && !subcategoryId && brandId && !availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), brandId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), brandId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), brandId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), brandId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), brandId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //CF
+            if (!categoryId && !subcategoryId && !brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //DF
+            if (!categoryId && !subcategoryId && brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, brandId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, brandId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, brandId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, brandId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, brandId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //CDF
+            if (categoryId && !subcategoryId && !brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //DFA
+            if (categoryId && subcategoryId && !brandId && !availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId, categoryId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId, categoryId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId, categoryId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId, categoryId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), subcategoryId, categoryId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //FAB
+            if (!categoryId && subcategoryId && brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, subcategoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, subcategoryId, brandId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, subcategoryId, brandId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, subcategoryId, brandId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, subcategoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //BCDF
+            if (categoryId && !subcategoryId && brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, brandId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, brandId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, brandId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //ACDF
+            if (categoryId && subcategoryId && !brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //ABDF
+            if (categoryId && subcategoryId && brandId && availability.name && query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
+                }
+            } //ABCDF
             return res.json(items)
         }catch (e) {
 
         }
 
     }
-    async getOne(req,res){                      //get a car by id
+    async getOne(req,res){
         const {id} = req.params
-        const item = await Item.findOne(          //extract a car by id and get info
+        const item = await Item.findOne(
             {
                 where: {id},
                 include: [{model: ItemImages, as: 'images'}]
