@@ -7,7 +7,7 @@ import {
     ISubcategory,
     IItems,
     ISorting,
-    ICartItem
+    ICartItem, ICurrentItem
 } from "../../models/DataBaseItems";
 import {isItemInCart} from "../../hof/isItemInCart";
 
@@ -25,16 +25,23 @@ interface CategoryState {
     currentSubcategory: ISubcategory;
     currentAvailability: IAvailability;
     currentBrand: IBrand;
-    currentItem: IItem;
+    currentItem: ICurrentItem;
     pages: number;
     user: string;
     isAuth: boolean;
     currentPage: number;
     limit: number
-    loading: boolean;
     error: boolean;
     loginError: boolean;
     registerError: boolean;
+    categoryLoading: boolean;
+    subcategoryLoading: boolean;
+    availabilityLoading: boolean;
+    brandsLoading: boolean;
+    itemLoading: boolean;
+    itemsLoading: boolean;
+    authLoading: boolean;
+    createLoading: boolean;
 }
 
 const initialState: CategoryState = {
@@ -101,21 +108,57 @@ const initialState: CategoryState = {
         images: [],
         createdAt: '',
         updatedAt: '',
+        reviews: [],
         itemAvailabilityId: null,
         itemBrandId: null,
         itemCategoryId: null,
         itemSubcategoryId: null,
     },
-    loading: false,
     error: false,
+    categoryLoading: false,
+    availabilityLoading: false,
+    subcategoryLoading: false,
+    brandsLoading: false,
+    itemsLoading: true,
+    itemLoading: false,
+    authLoading: false,
+    createLoading: false
 }
 
 export const categorySlice = createSlice({
         name: 'category',
         initialState,
         reducers: {
+            brandsFetching(state){
+                state.availabilityLoading = true
+            },
+            availabilityFetching(state){
+                state.availabilityLoading = true
+            },
+            categoryFetching(state){
+                state.categoryLoading = true
+            },
+            subcategoryFetching(state){
+                state.subcategoryLoading = true
+                state.error = false
+            },
+            subcategoryFetchingError(state){
+                state.subcategoryLoading = false
+                state.error = true
+            },
+            clearFilters(state){
+                state.currentCategory = initialState.currentCategory
+                state.currentSubcategory = initialState.currentSubcategory
+                state.currentSort = initialState.currentSort
+                state.currentAvailability = initialState.currentAvailability
+                state.currentBrand = initialState.currentBrand
+            },
             signUpError(state) {
                 state.registerError = true
+            },
+            categoryFetchingError(state) {
+                state.categoryLoading = false
+                state.error = true
             },
             signInError(state) {
                 state.loginError = true
@@ -126,7 +169,7 @@ export const categorySlice = createSlice({
                 state.isAuth = true
             },
             signingIn(state) {
-                state.loading = true
+                state.createLoading = true
                 state.loginError = false
             },
             setQuery(state, action: PayloadAction<string>) {
@@ -176,55 +219,69 @@ export const categorySlice = createSlice({
                 state.currentPage = 1
             },
             creation(state){
-                state.loading = true
+                state.createLoading = true
                 state.error = false
             },
             creationSuccess(state){
-                state.loading = false
+                state.createLoading = false
                 state.error = false
             },
-            creationError(state){
-                state.loading = false
+            brandsFetchingError(state) {
+                state.brandsLoading = false
                 state.error = true
             },
-            fetching(state){
-                state.loading = true
+            creationError(state){
+                state.createLoading = false
+                state.error = true
+            },
+            itemFetching(state){
+                state.itemLoading = true
                 state.error = false
             },
-            fetchingError(state){
-                state.loading = false
+            itemsFetchingError(state){
+                state.itemsLoading = false
+                state.error = true
+            },
+            availabilityFetchingError(state){
+                state.availabilityLoading = false
                 state.error = true
             },
             categoryFetchingSuccess(state, action: PayloadAction<ICategory[]>){
-                state.loading = false
+                state.categoryLoading = false
                 state.error = false
                 state.categories = action.payload
-                state.currentCategory = action.payload[0]
             },
             subcategoryFetchingSuccess(state, action: PayloadAction<ISubcategory[]>){
-                state.loading = false
+                state.subcategoryLoading = false
                 state.error = false
                 state.subcategories = action.payload
             },
             availabilitiesFetchingSuccess(state, action: PayloadAction<IAvailability[]>){
-                state.loading = false
+                state.availabilityLoading = false
                 state.error = false
                 state.availabilities = action.payload
             },
             brandsFetchingSuccess(state, action: PayloadAction<IBrand[]>){
-                state.loading = false
+                state.brandsLoading = false
                 state.error = false
                 state.brands = action.payload
             },
+            itemsFetching(state){
+                state.itemsLoading = true
+            },
             itemsFetchingSuccess(state, action: PayloadAction<IItems>){
-                state.loading = false
+                state.itemsLoading = false
                 state.error = false
                 state.items = action.payload
             },
-            itemFetchingSuccess(state, action: PayloadAction<IItem>){
-                state.loading = false
+            itemFetchingSuccess(state, action: PayloadAction<ICurrentItem>){
+                state.itemLoading = false
                 state.error = false
                 state.currentItem = action.payload
+            },
+            itemFetchingError(state){
+                state.itemLoading = false
+                state.error = true
             }
         }
     }

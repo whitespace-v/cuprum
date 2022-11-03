@@ -9,7 +9,7 @@ import {fetchCategories} from "../../store/ActionCreators/Fetching";
 import {setCurrentSubcategory} from "../../store/ActionCreators/Setting";
 
 const SubcategoryBar = () => {
-    const {subcategories, loading, error, currentSubcategory, currentCategory, user} = useAppSelector(state => state.categoryReducer)
+    const {subcategories, currentSubcategory, currentCategory, user} = useAppSelector(state => state.categoryReducer)
     const dispatch = useAppDispatch()
 
     const [subcategoryCreation, setSubcategoryCreation] = useState<boolean>(false)

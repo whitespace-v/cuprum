@@ -1,0 +1,32 @@
+@import "../../variables";
+.ItemCardsLoader{
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20px;
+  &__item{
+    flex: 0 1 19%;
+    min-width: 200px;
+    background: $gray ;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 4px 4px $gray;
+    padding: 20px;
+    &-image{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &-name{
+      margin: 20px 0;
+    }
+    &-mark{
+      margin: 20px 0;
+    }
+    &-price{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}

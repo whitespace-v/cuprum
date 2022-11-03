@@ -6,7 +6,7 @@ import {IToken} from "../../models/DataBaseItems";
 
 export const signUp = (login: string, password: string) => async(dispatch: AppDispatch) => {
     try {
-        dispatch(categorySlice.actions.creation())
+        dispatch(categorySlice.actions.signingIn())
         const {data} = await $host.post('api/user/registration', {login, password})
         let token: IToken = jwt_decode(data.token)
         dispatch(categorySlice.actions.signIn(token.role))
@@ -30,7 +30,7 @@ export const signIn = (login: string, password: string) => async(dispatch: AppDi
 
 export const check = () => async(dispatch: AppDispatch) => {
     try {
-        dispatch(categorySlice.actions.creation())
+        dispatch(categorySlice.actions.signingIn())
         const {data} = await $authHost.get('api/user/auth' )
         let token: IToken = jwt_decode(data.token)
         dispatch(categorySlice.actions.signIn(token.role))

@@ -7,6 +7,7 @@ const availabilityRouter = require('./AvailabilityRouter')
 const brandRouter = require('./BrandRouter')
 const itemRouter = require('./ItemRouter')
 const userRouter = require('./UserRouter')
+const commentRouter = require('./CommentRouter')
 //under-routers
 router.use('/category', categoryRouter)
 router.use('/subcategory', subcategoryRouter)
@@ -14,5 +15,6 @@ router.use('/availability', availabilityRouter)
 router.use('/brand', brandRouter)
 router.use('/item', itemRouter)
 router.use('/user', userRouter)
+router.use('/comment', commentRouter)
 
 module.exports = router

@@ -1,31 +1,25 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 import classes from '../styles/Components/ItemCards.module.scss'
-import {FaCheck, FaMinus, FaPlus, FaStar, FaTimes} from "react-icons/fa";
+import {FaCheck, FaMinus, FaPlus, FaStar} from "react-icons/fa";
 import {RiShoppingCartLine} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
-import {fetchItems} from "../store/ActionCreators/Fetching";
 import {addToCart, cartItemCountControl, deleteFromCart} from "../store/ActionCreators/Setting";
 import {isItemInCart} from "../hof/isItemInCart";
 
 const ItemCards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const {items, currentCategory, currentSubcategory,currentAvailability, currentBrand, currentSort, currentPage, limit, cartItems, query} = useAppSelector(state => state.categoryReducer)
+    const {items, cartItems} = useAppSelector(state => state.categoryReducer)
 
-    useEffect(() => {
-        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit, query))
-    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, query])
-
-    // console.log('items:',items)
-    // console.log('cart:', cartItems)
     return (
         <div className={classes['ItemCards']}>
-            {items && items.rows && items.rows.map(i => (
+            {items.rows.map(i => (
                 <div key={i.id} className={classes['ItemCards__item']} onClick={() => navigate(`item/${i.id}`)}>
                     <div className={classes['ItemCards__item-vendor']}
                     >
                         {i.vendor}
+
                     </div>
                     <div className={classes['ItemCards__item-image']}
                          style={{backgroundImage: `url("${process.env.REACT_APP_API_URL}${i.image}")`}}
@@ -40,13 +34,13 @@ const ItemCards = () => {
                         i.mark > 0 ?
                             <div className={classes['ItemCards__item-mark']}>
                                 <div className={classes['ItemCards__item-mark-stars']}>
-                                    {Array.from(Array(i.mark).keys()).map(() => (
-                                        <div className={classes['ItemCards__item-mark-stars-full']}>
+                                    {Array.from(Array(i.mark).keys()).map((_, index) => (
+                                        <div className={classes['ItemCards__item-mark-stars-full']} key={index}>
                                             <FaStar/>
                                         </div>
                                     ))}
-                                    {Array.from(Array(5-i.mark).keys()).map(() => (
-                                        <div className={classes['ItemCards__item-mark-stars-empty']}>
+                                    {Array.from(Array(5-i.mark).keys()).map((_, index) => (
+                                        <div className={classes['ItemCards__item-mark-stars-empty']} key={index}>
                                             <FaStar/>
                                         </div>
                                     ))}
@@ -66,7 +60,6 @@ const ItemCards = () => {
                                     </div>
                                 </div>
                             </div>
-
                     }
                     <div className={classes['ItemCards__item-availability']}>
                         <b>Наличие: </b><span>{i.availability}</span>

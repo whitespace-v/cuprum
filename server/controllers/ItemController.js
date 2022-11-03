@@ -1,4 +1,4 @@
-const {Item, ItemImages} = require('../models/models')
+const {Item, ItemImages, ItemReviews} = require('../models/models')
 const path = require('path')
 const uuid = require('uuid')
 const sequelize  = require('../database')
@@ -529,6 +529,9 @@ class ItemController {
                         items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
             } //ABCDF
+            if (categoryId === 0) {
+                items = await Item.findAndCountAll({limit, offset, order: [['price', 'ASC']]})
+            }
             return res.json(items)
         }catch (e) {
 
@@ -540,7 +543,7 @@ class ItemController {
         const item = await Item.findOne(
             {
                 where: {id},
-                include: [{model: ItemImages, as: 'images'}]
+                include: [{model: ItemImages, as: 'images'}, {model: ItemReviews, as: 'reviews'}]
             }
         )
         return res.json(item)

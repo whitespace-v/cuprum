@@ -1,12 +1,12 @@
 import {AppDispatch} from "../store";
-import {IAvailability, IBrand, ICategory, ISubcategory} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICategory, IItem, ISubcategory} from "../../models/DataBaseItems";
 import {categorySlice} from "../slices/CategorySlice";
 import {$authHost, $host} from "../../http";
 
 export const createCategory = (name: string) => async(dispatch: AppDispatch) => {
     try {
         dispatch(categorySlice.actions.creation())
-        await $authHost.post('api/category', {name}) //authost !
+        await $authHost.post('api/category', {name})
         dispatch(categorySlice.actions.creationSuccess())
     } catch (e) {
         dispatch(categorySlice.actions.creationError())
@@ -15,7 +15,7 @@ export const createCategory = (name: string) => async(dispatch: AppDispatch) => 
 export const createBrand = (name: string) => async(dispatch: AppDispatch) => {
     try {
         dispatch(categorySlice.actions.creation())
-        await $authHost.post('api/brand', {name}) //authost !
+        await $authHost.post('api/brand', {name})
         dispatch(categorySlice.actions.creationSuccess())
     } catch (e) {
         dispatch(categorySlice.actions.creationError())
@@ -38,7 +38,7 @@ export const createItem =
         });
         try {
             dispatch(categorySlice.actions.creation())
-            await $authHost.post('api/item', item) //authost !
+            await $authHost.post('api/item', item)
             dispatch(categorySlice.actions.creationSuccess())
         } catch (e) {
             dispatch(categorySlice.actions.creationError())
@@ -48,7 +48,7 @@ export const createItem =
 export const createSubcategory = (name: string, category: ICategory) => async(dispatch: AppDispatch) => {
     try {
         dispatch(categorySlice.actions.creation())
-        await $authHost.post('api/subcategory', {name, category}) //authost !
+        await $authHost.post('api/subcategory', {name, category})
         dispatch(categorySlice.actions.creationSuccess())
     } catch (e) {
         dispatch(categorySlice.actions.creationError())
@@ -58,7 +58,16 @@ export const createSubcategory = (name: string, category: ICategory) => async(di
 export const createAvailability = (name: string) => async(dispatch: AppDispatch) => {
     try {
         dispatch(categorySlice.actions.creation())
-        await $authHost.post('api/availability', {name}) //authost !
+        await $authHost.post('api/availability', {name})
+        dispatch(categorySlice.actions.creationSuccess())
+    } catch (e) {
+        dispatch(categorySlice.actions.creationError())
+    }
+}
+export const commentCreate = (item: IItem, comment: string, mark: number ) => async(dispatch: AppDispatch) => {
+    try {
+        dispatch(categorySlice.actions.creation())
+        await $host.post('api/comment', {item, comment, mark})
         dispatch(categorySlice.actions.creationSuccess())
     } catch (e) {
         dispatch(categorySlice.actions.creationError())

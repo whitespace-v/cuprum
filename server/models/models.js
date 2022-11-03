@@ -131,5 +131,5 @@ module.exports = {
     User, Item, Category, Subcategory, Brand, Availability, ItemImages,
     CategorySubcategory, CategoryBrand,
     CategoryAvailability, SubcategoryBrand,
-    SubcategoryAvailability, BrandAvailability,
+    SubcategoryAvailability, BrandAvailability, ItemReviews
 }

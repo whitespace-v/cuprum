@@ -12,26 +12,33 @@ import NavBar from "../../Components/NavBar";
 import SearchBar from "../../Components/SearchBar";
 import ItemCreationTool from "../../Components/ItemCreationTool";
 import {useAppSelector} from "../../hooks/redux";
+import ClearFiltersBar from "../../Components/ClearFiltersBar";
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import ItemCardsLoader from "../../Components/Loaders/ItemCardsLoader";
+
 
 const Shop = () => {
-
-    const {user} = useAppSelector(state => state.categoryReducer)
-
+    const {user, itemsLoading} = useAppSelector(state => state.categoryReducer)
+    console.log(itemsLoading)
     return (
-        <Layout>
-            <NavBar/>
-            <SearchBar/>
-            <CategoryBar/>
-            <SubcategoryBar/>
-            <ExtendingBarsLayout>
-                <SortingBar/>
-                <AvailabilityBar/>
-                <BrandBar/>
-            </ExtendingBarsLayout>
-            {user === 'Admin' &&  <ItemCreationTool/> }
-            <ItemCards/>
-            <PageBar/>
-        </Layout>
+        <SkeletonTheme baseColor='#313131' highlightColor='#525252'>
+            <Layout>
+                <NavBar/>
+                <SearchBar/>
+                <CategoryBar/>
+                <SubcategoryBar/>
+                <ExtendingBarsLayout>
+                    <SortingBar/>
+                    <AvailabilityBar/>
+                    <BrandBar/>
+                    <ClearFiltersBar/>
+                </ExtendingBarsLayout>
+                {user === 'Admin' && <ItemCreationTool/> }
+                {itemsLoading ? <ItemCardsLoader/> : <ItemCards/>}
+                <PageBar/>
+            </Layout>
+        </SkeletonTheme>
     );
 };
 

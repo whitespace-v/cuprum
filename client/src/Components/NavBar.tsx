@@ -7,6 +7,7 @@ import {useAppSelector} from "../hooks/redux";
 const NavBar = () => {
     const navigate = useNavigate()
     const {isAuth} = useAppSelector(state => state.categoryReducer)
+
     return (
         <div className={classes['NavBar']}>
             <div className={classes['NavBar-nav']}>

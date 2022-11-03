@@ -121,6 +121,7 @@
         }
         &-checked{
           color: $orange;
+          cursor: pointer;
         }
         &-checked:hover{
           color: $gray;
@@ -141,6 +142,7 @@
             padding: 5px 0;
             font-weight: bold;
             color: $orange;
+            cursor: pointer;
           }
           &-handler:hover{
             color: $gray;

@@ -30,6 +30,14 @@ export interface IImages{
     createdAt: string;
     updatedAt: string;
 }
+export interface IReview{
+    comment: string;
+    createdAt: string;
+    id: number;
+    itemId: number;
+    mark: number;
+    updatedAt: string;
+}
 export interface IItem {
     id: number;
     categoryId: number;
@@ -71,4 +79,7 @@ export interface IToken{
     role: string,
     iat: number,
     exp: number
+}
+export interface ICurrentItem extends IItem {
+    reviews: IReview[]
 }

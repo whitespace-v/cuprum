@@ -9,18 +9,29 @@ import {FaMinus, FaPlus, FaTimes} from "react-icons/fa";
 import {cartItemCountControl, deleteFromCart, setQuery} from "../store/ActionCreators/Setting";
 import {getCartSum} from "../hof/getCartSum";
 import useLockedBody from "../hof/useLockedBody";
+import useDebounce from "../hof/useDebounce";
+import {fetchItems} from "../store/ActionCreators/Fetching";
 
 const SearchBar = () => {
     const dispatch = useAppDispatch()
-    const {query, cartItems} = useAppSelector(state => state.categoryReducer)
+    const {cartItems, currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit, query} = useAppSelector(state => state.categoryReducer)
+    const [localQuery, setLocalQuery] = useState<string>('')
     const [locked, setLocked] = useLockedBody(true, 'root')
     const [basketActive, setBasketActive] = useState<boolean>(false)
+
+    const debouncedValue = useDebounce<string>(localQuery, 500)
 
     useEffect(() => {
         setLocked(!locked)
     }, [basketActive])
 
-    //todo: set timeout to dispatching
+    useEffect(() => {
+        dispatch(setQuery(debouncedValue))
+    },[debouncedValue])
+
+    useEffect(() => {
+        dispatch(fetchItems(currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, limit, query))
+    }, [currentCategory, currentSubcategory, currentAvailability, currentBrand, currentSort, currentPage, query])
 
     return (
         <>
@@ -29,8 +40,8 @@ const SearchBar = () => {
                     <img src={logo} alt=""/>
                 </div>
                 <div className={classes['SearchBar-bar']}>
-                    <UIInput value={query} type={"primary"} placeholder={'Поиск по сайту...'}
-                             onChange={(e: React.FormEvent<HTMLInputElement>) => dispatch(setQuery(e.currentTarget.value))}
+                    <UIInput value={localQuery} type={"primary"} placeholder={'Поиск по сайту...'}
+                             onChange={(e: React.FormEvent<HTMLInputElement>) => setLocalQuery(e.currentTarget.value)}
                     />
                 </div>
                 <div className={classes['SearchBar-basket']}>
@@ -88,7 +99,6 @@ const SearchBar = () => {
                                 <div>Здесь ничего нет =(</div>
                             </div>
                         }
-
                     </div>
                 </div>
             }
