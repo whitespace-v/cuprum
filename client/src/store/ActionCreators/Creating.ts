@@ -1,5 +1,5 @@
 import {AppDispatch} from "../store";
-import {IAvailability, IBrand, ICategory, IItem, ISubcategory} from "../../models/DataBaseItems";
+import {IAvailability, IBrand, ICategory, ICurrentItem, IItem, ISubcategory} from "../../models/DataBaseItems";
 import {categorySlice} from "../slices/CategorySlice";
 import {$authHost, $host} from "../../http";
 
@@ -74,4 +74,13 @@ export const commentCreate = (item: IItem, comment: string, mark: number ) => as
     }
 }
 
-
+export const deleteItem = (id: number) => async(dispatch: AppDispatch) => {
+    try {
+        dispatch(categorySlice.actions.creation())
+        const {data} = await $authHost({method:'DELETE', url:`api/item/${id}`});
+        console.log(data)
+        dispatch(categorySlice.actions.creationSuccess())
+    } catch (e) {
+        dispatch(categorySlice.actions.creationError())
+    }
+}

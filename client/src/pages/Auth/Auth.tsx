@@ -6,10 +6,11 @@ import UIButton from "../../UIKIT/UIButton";
 import {useNavigate} from "react-router-dom";
 import {signIn} from "../../store/ActionCreators/userAPI";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import Loader from "../../Components/Loaders/Loader";
 
 const Auth = () => {
     const dispatch = useAppDispatch()
-    const {loginError, isAuth} = useAppSelector(state => state.categoryReducer)
+    const {loginError, isAuth, authLoading} = useAppSelector(state => state.categoryReducer)
     const [login, setLogin] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const navigate = useNavigate()
@@ -26,24 +27,27 @@ const Auth = () => {
 
 
     useEffect(() => {
-        // console.log(loginError)
         loginError && alert('Такого пользователя не существует!')
     }, [loginError])
 
     return (
-        <Layout>
-            <div className={classes['Auth']}>
-                <div className={classes['Auth__container']}>
-                    <div className={classes['Auth__container-name']}>Авторизация</div>
-                    <UIInput type={"primary"} placeholder={'Логин'} value={login} onChange={e => setLogin(e.currentTarget.value)}/>
-                    <UIInput type={"primary"} placeholder={'Пароль'} value={password} onChange={e => setPassword(e.currentTarget.value)}/>
-                    <div className={classes['Auth__container-buttons']}>
-                        <UIButton type={'primary-small'} onClick={e => clickHandler(e)}>Вход</UIButton>
-                        <UIButton type={'link'} onClick={() => navigate('/signup')}>Нет аккаунта?</UIButton>
+        <>
+            <Layout>
+                <div className={classes['Auth']}>
+                    <div className={classes['Auth__container']}>
+                        <div className={classes['Auth__container-name']}>Авторизация</div>
+                        <UIInput type={"primary"} placeholder={'Логин'} value={login} onChange={e => setLogin(e.currentTarget.value)}/>
+                        <UIInput type={"primary"} placeholder={'Пароль'} value={password} onChange={e => setPassword(e.currentTarget.value)}/>
+                        <div className={classes['Auth__container-buttons']}>
+                            <UIButton type={'primary-small'} onClick={e => clickHandler(e)}>Вход</UIButton>
+                            <UIButton type={'link'} onClick={() => navigate('/signup')}>Нет аккаунта?</UIButton>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Layout>
+            </Layout>
+            {authLoading && <Loader/>}
+        </>
+
     );
 };
 

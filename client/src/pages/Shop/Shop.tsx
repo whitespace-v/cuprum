@@ -16,18 +16,18 @@ import ClearFiltersBar from "../../Components/ClearFiltersBar";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ItemCardsLoader from "../../Components/Loaders/ItemCardsLoader";
+import Loader from "../../Components/Loaders/Loader";
 
 
 const Shop = () => {
-    const {user, itemsLoading} = useAppSelector(state => state.categoryReducer)
-    console.log(itemsLoading)
+    const {user, itemsLoading, subcategoryLoading} = useAppSelector(state => state.categoryReducer)
     return (
         <SkeletonTheme baseColor='#313131' highlightColor='#525252'>
             <Layout>
                 <NavBar/>
                 <SearchBar/>
                 <CategoryBar/>
-                <SubcategoryBar/>
+                {subcategoryLoading ? <Skeleton width={400} height={40}/> : <SubcategoryBar/> }
                 <ExtendingBarsLayout>
                     <SortingBar/>
                     <AvailabilityBar/>

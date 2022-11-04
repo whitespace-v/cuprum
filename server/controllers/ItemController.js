@@ -2,6 +2,7 @@ const {Item, ItemImages, ItemReviews} = require('../models/models')
 const path = require('path')
 const uuid = require('uuid')
 const sequelize  = require('../database')
+const fs = require('fs')
 
 class ItemController {
     async create(req,res){
@@ -204,7 +205,7 @@ class ItemController {
                     default:
                         items = await Item.findAndCountAll({where: {categoryId}, limit, offset, order: [['id', 'DESC']]})
                 }
-             } //A
+            } //A
             if (!categoryId && subcategoryId && brandId && !availability.name && !query){
                 switch (sorting.name) {
                     case 'asc price':
@@ -529,9 +530,24 @@ class ItemController {
                         items = await Item.findAndCountAll({where: {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', '%' + query + '%'), availability: availability.name, categoryId, subcategoryId, brandId}, limit, offset, order: [['id', 'DESC']]})
                 }
             } //ABCDF
-            if (categoryId === 0) {
-                items = await Item.findAndCountAll({limit, offset, order: [['price', 'ASC']]})
-            }
+            if (!categoryId && !subcategoryId && !brandId && !availability.name && !query) {
+                switch (sorting.name) {
+                    case 'asc price':
+                        items = await Item.findAndCountAll({limit, offset, order: [['price', 'ASC']]})
+                        break
+                    case 'desc price':
+                        items = await Item.findAndCountAll({limit, offset, order: [['price', 'DESC']]})
+                        break
+                    case 'asc marks':
+                        items = await Item.findAndCountAll({limit, offset, order: [['marksCount', 'ASC']]})
+                        break
+                    case 'desc marks':
+                        items = await Item.findAndCountAll({limit, offset, order: [['marksCount', 'DESC']]})
+                        break
+                    default:
+                        items = await Item.findAndCountAll({limit, offset, order: [['id', 'DESC']]})
+                }
+            } // w/o filter
             return res.json(items)
         }catch (e) {
 
@@ -548,19 +564,36 @@ class ItemController {
         )
         return res.json(item)
     }
-    async delete(req,res){
-        try{
+    async delete(req, res) {
+        try {
             const {id} = req.params;
-            await Item.findOne({where: {id}})
-                .then( async data => {
-                    if (data) {
-                        await Item
-                            .destroy({where: {id}})
-                            .then(() => res.json('[-] Item deleted'))
-                    } else return res.json(`[!] Doesn't exist in data base`)
+            const item = await Item.findOne({where:{id}})
+            //delete image
+            try {
+                fs.access(path.resolve(__dirname, '..','static', item.dataValues.image), fs.F_OK, () => {
+                    fs.unlinkSync(path.resolve(__dirname, '..', 'static', item.dataValues.image))
                 })
+            } catch (e) {
+                console.log(e)
+            }
+            //delete images
+            const images = await ItemImages.findAll({where: {itemId: id}})
+            try {
+                for (let i = 0; i < images.length; i++) {
+                    fs.access(path.resolve(__dirname, '..','static', images[i].dataValues.img), fs.F_OK, () => {
+                        fs.unlinkSync(path.resolve(__dirname, '..', 'static', images[i].dataValues.img))
+                    })
+                }
+            } catch (e) {
+                console.error(e)
+            }
+            //delete item
+            await ItemImages.destroy({where: {itemId: id}})
+            await ItemReviews.destroy({where: {itemId: id}})
+            await Item.destroy({where:{id}})
+            return res.json({message: "Car deleted"});
         } catch (e) {
-            return res.json(e);
+            console.error(e)
         }
     }
 }

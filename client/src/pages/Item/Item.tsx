@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Layout from "../../UIKIT/Layout";
 import classes from '../../styles/Item/Item.module.scss'
 import classesItemCards from '../../styles/Components/ItemCards.module.scss'
@@ -13,7 +13,7 @@ import {FaCheck, FaMinus, FaPlus, FaStar, FaTimes} from "react-icons/fa";
 import {RiShoppingCartLine} from "react-icons/ri";
 import UIButton from "../../UIKIT/UIButton";
 import UIInput from "../../UIKIT/UIInput";
-import {commentCreate} from "../../store/ActionCreators/Creating";
+import {commentCreate, deleteItem} from "../../store/ActionCreators/Creating";
 
 const Item = () => {
     const dispatch = useAppDispatch()
@@ -23,7 +23,8 @@ const Item = () => {
     const [commentCreation, setCommentCreation] = useState<boolean>(false)
 
     const [stateImage, setStateImage] = useState<string>('')
-    const {currentItem, cartItems} = useAppSelector(state => state.categoryReducer)
+    const {currentItem, cartItems, user} = useAppSelector(state => state.categoryReducer)
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(fetchItem(id))
@@ -40,6 +41,11 @@ const Item = () => {
         dispatch(fetchItem(id))
     }
 
+    const deleteItemHandler = () => {
+        dispatch(deleteItem(currentItem.id))
+        navigate('/')
+    }
+
     return (
         <Layout>
             <NavBar/>
@@ -47,6 +53,9 @@ const Item = () => {
             <div className={classes['Item']}>
                 <div className={classes['Item__name']}>
                     {currentItem.name}
+                    {user === 'Admin' &&
+                        <UIButton type={"primary-small"} onClick={() => deleteItemHandler()}>Удалить товар</UIButton>
+                    }
                 </div>
                 <div className={classes['Item__card']}>
                     <div className={classes['Item__card-images']}>
