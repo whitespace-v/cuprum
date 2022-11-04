@@ -4,13 +4,15 @@ import classes from '../styles/Components/ItemCards.module.scss'
 import {FaCheck, FaMinus, FaPlus, FaStar} from "react-icons/fa";
 import {RiShoppingCartLine} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
-import {addToCart, cartItemCountControl, deleteFromCart} from "../store/ActionCreators/Setting";
+import {addToCart, cartItemCountControl} from "../store/ActionCreators/Setting";
 import {isItemInCart} from "../hof/isItemInCart";
+import useWindowSize from "../hof/useWindowSize";
 
 const ItemCards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const {items, cartItems} = useAppSelector(state => state.categoryReducer)
+    const {width} = useWindowSize()
 
     return (
         <div className={classes['ItemCards']}>
@@ -21,15 +23,35 @@ const ItemCards = () => {
                         {i.vendor}
 
                     </div>
-                    <div className={classes['ItemCards__item-image']}
-                         style={{backgroundImage: `url("${process.env.REACT_APP_API_URL}${i.image}")`}}
-                    />
-                    <div className={classes['ItemCards__item-name']}>
-                        {i.name}
-                    </div>
-                    <div className={classes['ItemCards__item-description']}>
-                        {i.description.length > 70 ? `${i.description.substring(0, 70)}...` : i.description}
-                    </div>
+                    {width > 600 ?
+                    <>
+                        <div className={classes['ItemCards__item-image']}
+                             style={{backgroundImage: `url("${process.env.REACT_APP_API_URL}${i.image}")`}}
+                        />
+                        <div className={classes['ItemCards__item-name']}>
+                            {i.name}
+                        </div>
+                        <div className={classes['ItemCards__item-description']}>
+                            {i.description.length > 70 ? `${i.description.substring(0, 70)}...` : i.description}
+                        </div>
+                    </>
+                        :
+                        <div className={classes['ItemCards__item-flex']}>
+                            <div className={classes['ItemCards__item-image']}
+                                 style={{backgroundImage: `url("${process.env.REACT_APP_API_URL}${i.image}")`}}
+                            />
+                            <div>
+                                <div className={classes['ItemCards__item-name']}>
+                                    {i.name}
+                                </div>
+                                <div className={classes['ItemCards__item-description']}>
+                                    {i.description.length > 70 ? `${i.description.substring(0, 70)}...` : i.description}
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
                     {
                         i.mark > 0 ?
                             <div className={classes['ItemCards__item-mark']}>
@@ -64,7 +86,7 @@ const ItemCards = () => {
                     <div className={classes['ItemCards__item-availability']}>
                         <b>Наличие: </b><span>{i.availability}</span>
                     </div>
-                    <div className={classes['ItemCards__item-buttons']}>
+                    <div className={classes['ItemCards__item-buttons']} style={width < 650 && isItemInCart(i, cartItems) ? {flexDirection: 'column'} : {}}>
                         {i.oldPrice > 0 ?
                             <div className={classes['ItemCards__item-buttons-sale']}>
                                 <div className={classes['ItemCards__item-buttons-sale-current']}>{i.price} ₽</div>
@@ -100,12 +122,6 @@ const ItemCards = () => {
                                     >
                                         <FaPlus/>
                                     </div>
-                                </div>
-                                <div className={classes['ItemCards__item-buttons-interactions-checked']} onClick={e => {
-                                    e.stopPropagation();
-                                    dispatch(deleteFromCart(i))
-                                }}>
-                                    <FaCheck/>
                                 </div>
                             </div>
                             :

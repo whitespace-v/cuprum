@@ -55,7 +55,7 @@ const initialState: CategoryState = {
     availabilities: [],
     brands: [],
     currentPage: 1,
-    limit: 15,
+    limit: 10,
     query: '',
     sorting: [
         {name: 'asc price', rus: 'сначала недорогие'},
@@ -175,17 +175,19 @@ export const categorySlice = createSlice({
             setQuery(state, action: PayloadAction<string>) {
                 state.query = action.payload
             },
-            cartItemCountControl(state, action: PayloadAction<ICartItem>,){
+            deleteFromCart(state, action: PayloadAction<IItem>){
+                state.cartItems = state.cartItems.filter(x => x.item.id !== action.payload.id)
+            }
+            ,
+            cartItemCountControl(state, action: PayloadAction<ICartItem>){
                 let idx = state.cartItems.findIndex(x => x.item.id === action.payload.item.id)
                 if (state.cartItems[idx].count > 1){
                     state.cartItems[idx].count += action.payload.count
-                }
-                if (state.cartItems[idx].count === 1 && action.payload.count === 1){
+                } else if (state.cartItems[idx].count === 1 && action.payload.count === 1){
                     state.cartItems[idx].count += action.payload.count
+                } else {
+                    state.cartItems = state.cartItems.filter(x => x.item.id !== action.payload.item.id)
                 }
-            },
-            deleteFromCart(state, action: PayloadAction<IItem>){
-                state.cartItems = state.cartItems.filter(x => x.item.id !== action.payload.id)
             },
             addToCart(state, action: PayloadAction<IItem>){
                 if (!isItemInCart(action.payload, state.cartItems)) {

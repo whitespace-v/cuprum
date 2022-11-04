@@ -148,12 +148,6 @@ const Item = () => {
                                                 <FaPlus/>
                                             </div>
                                         </div>
-                                        <div className={classesItemCards['ItemCards__item-buttons-interactions-checked']} onClick={e => {
-                                            e.stopPropagation();
-                                            dispatch(deleteFromCart(currentItem))
-                                        }}>
-                                            <FaCheck/>
-                                        </div>
                                     </div>
                                     :
                                     <div className={classesItemCards['ItemCards__item-buttons-interactions']}>
@@ -181,11 +175,13 @@ const Item = () => {
                                             </div>
                                         ))}
                                     </div>
-                                    <UIButton type={'icon'} onClick={e => commentCreationHandler(e)}><FaCheck/></UIButton>
-                                    <UIButton type={'icon'} onClick={() => {
-                                        setCommentCreation(false);
-                                        setComment('')
-                                    }}><FaTimes/></UIButton>
+                                    <div className={classes['Item__card-info-setComment-buttons']}>
+                                        <UIButton type={'icon'} onClick={e => commentCreationHandler(e)}><FaCheck/></UIButton>
+                                        <UIButton type={'icon'} onClick={() => {
+                                            setCommentCreation(false);
+                                            setComment('')
+                                        }}><FaTimes/></UIButton>
+                                    </div>
                                 </div>
                                 :
                                 <div className={classes['Item__card-info-setComment-button']}>

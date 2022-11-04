@@ -12,15 +12,15 @@ import NavBar from "../../Components/NavBar";
 import SearchBar from "../../Components/SearchBar";
 import ItemCreationTool from "../../Components/ItemCreationTool";
 import {useAppSelector} from "../../hooks/redux";
-import ClearFiltersBar from "../../Components/ClearFiltersBar";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ItemCardsLoader from "../../Components/Loaders/ItemCardsLoader";
-import Loader from "../../Components/Loaders/Loader";
+import useWindowSize from "../../hof/useWindowSize";
 
 
 const Shop = () => {
     const {user, itemsLoading, subcategoryLoading} = useAppSelector(state => state.categoryReducer)
+    const {width} = useWindowSize()
     return (
         <SkeletonTheme baseColor='#313131' highlightColor='#525252'>
             <Layout>
@@ -28,12 +28,7 @@ const Shop = () => {
                 <SearchBar/>
                 <CategoryBar/>
                 {subcategoryLoading ? <Skeleton width={400} height={40}/> : <SubcategoryBar/> }
-                <ExtendingBarsLayout>
-                    <SortingBar/>
-                    <AvailabilityBar/>
-                    <BrandBar/>
-                    <ClearFiltersBar/>
-                </ExtendingBarsLayout>
+                <ExtendingBarsLayout/>
                 {user === 'Admin' && <ItemCreationTool/> }
                 {itemsLoading ? <ItemCardsLoader/> : <ItemCards/>}
                 <PageBar/>

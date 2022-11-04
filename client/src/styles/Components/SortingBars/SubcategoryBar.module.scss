@@ -1,6 +1,11 @@
 .SubcategoryBar{
+  overflow: hidden;
+  overflow-x: scroll;
   &__items{
     display: flex;
     gap: 20px;
   }
+}
+.SubcategoryBar::-webkit-scrollbar {
+  display: none;
 }

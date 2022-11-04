@@ -33,7 +33,7 @@ const SubcategoryBar = () => {
     return (
         <div className={classes['SubcategoryBar']}>
             <div className={classes['SubcategoryBar__items']}>
-                {subcategories && subcategories.map(i => (
+                {subcategories.map(i => (
                     <UIButton
                         type={i === currentSubcategory ? 'link-active' : 'link'}
                         onClick={() => dispatch(setCurrentSubcategory(i))}
@@ -60,7 +60,8 @@ const SubcategoryBar = () => {
                         </>
                         }
                     </>
-                    :<>
+                    :
+                    <>
                         {user === 'Admin' && <UIButton type={'icon'} onClick={() => setSubcategoryCreation(true)}><FaPlus/></UIButton> }
                     </>
                 }

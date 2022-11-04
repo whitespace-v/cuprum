@@ -11,6 +11,7 @@ import {getCartSum} from "../hof/getCartSum";
 import useLockedBody from "../hof/useLockedBody";
 import useDebounce from "../hof/useDebounce";
 import {fetchItems} from "../store/ActionCreators/Fetching";
+import useWindowSize from "../hof/useWindowSize";
 
 const SearchBar = () => {
     const dispatch = useAppDispatch()
@@ -18,7 +19,7 @@ const SearchBar = () => {
     const [localQuery, setLocalQuery] = useState<string>('')
     const [locked, setLocked] = useLockedBody(true, 'root')
     const [basketActive, setBasketActive] = useState<boolean>(false)
-
+    const {width} = useWindowSize()
     const debouncedValue = useDebounce<string>(localQuery, 500)
 
     useEffect(() => {
@@ -36,9 +37,11 @@ const SearchBar = () => {
     return (
         <>
             <div className={classes['SearchBar']}>
-                <div className={classes['SearchBar-logo']}>
-                    <img src={logo} alt=""/>
-                </div>
+                {width > 850 &&
+                    <div className={classes['SearchBar-logo']}>
+                        <img src={logo} alt=""/>
+                    </div>
+                }
                 <div className={classes['SearchBar-bar']}>
                     <UIInput value={localQuery} type={"primary"} placeholder={'Поиск по сайту...'}
                              onChange={(e: React.FormEvent<HTMLInputElement>) => setLocalQuery(e.currentTarget.value)}
@@ -52,9 +55,11 @@ const SearchBar = () => {
                             </div>
                             <div className={classes['SearchBar-basket-cart-count']}>{cartItems.length}</div>
                         </div>
-                        <div className={classes['SearchBar-basket-amount']}>
-                            {getCartSum(cartItems).toLocaleString('ru')} ₽
-                        </div>
+                        {width > 850 &&
+                            <div className={classes['SearchBar-basket-amount']}>
+                                {getCartSum(cartItems).toLocaleString('ru')} ₽
+                            </div>
+                        }
                     </UIButton>
                 </div>
             </div>
